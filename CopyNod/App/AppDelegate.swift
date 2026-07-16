@@ -1,24 +1,37 @@
 import AppKit
 import SwiftUI
+import Combine
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
+    private let store = SettingsStore()
+    private let presenter = HUDPresenter()
     private var statusBar: StatusBarController?
     private var detector: (any CopyDetector)?
     private var verifier: CopyVerifier?
-    private let presenter = HUDPresenter()
+    private var updater: UpdaterController?
     private var onboardingWindow: NSWindow?
+    private var settingsWindow: NSWindow?
     private var permissionPollTimer: Timer?
+    private var cancellables = Set<AnyCancellable>()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         // 테스트 호스트로 실행될 때는 모니터·창을 만들지 않는다.
         if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil { return }
 
-        statusBar = StatusBarController()
+        updater = UpdaterController()
+
+        let statusBar = StatusBarController(store: store)
+        statusBar.openSettings = { [weak self] in self?.showSettings() }
+        statusBar.checkForUpdates = { [weak self] in self?.updater?.checkForUpdates() }
+        self.statusBar = statusBar
+        store.$hideMenuBarIcon
+            .sink { [weak statusBar] hidden in statusBar?.isVisible = !hidden }
+            .store(in: &cancellables)
 
         let verifier = CopyVerifier(pasteboard: GeneralPasteboard(),
-                                    scheduler: MainScheduler()) { [presenter] cursor in
-            presenter.show(at: cursor)
+                                    scheduler: MainScheduler()) { [presenter, store] cursor in
+            presenter.show(at: cursor, position: store.hudPosition)
         }
         self.verifier = verifier
 
@@ -36,10 +49,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    /// 숨김/백그라운드 상태에서 Spotlight 등으로 재실행하면 안내 창을 다시 띄운다
+    /// 아이콘 숨김 상태의 설정 접근 경로: Spotlight 등에서 재실행 → 설정 창 (planning.md 2.4).
+    /// 권한이 없으면 온보딩이 우선.
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        if !PermissionManager.isTrusted { showOnboarding() }
+        if PermissionManager.isTrusted {
+            showSettings()
+        } else {
+            showOnboarding()
+        }
         return false
+    }
+
+    private func showSettings() {
+        if settingsWindow == nil {
+            let view = SettingsView(store: store) { [weak self] in self?.updater?.checkForUpdates() }
+            let window = NSWindow(contentViewController: NSHostingController(rootView: view))
+            window.styleMask = [.titled, .closable]
+            window.title = String(localized: "CopyNod Settings")
+            window.isReleasedWhenClosed = false
+            window.center()
+            settingsWindow = window
+        }
+        NSApp.activate(ignoringOtherApps: true)
+        settingsWindow?.makeKeyAndOrderFront(nil)
     }
 
     private func showOnboarding() {

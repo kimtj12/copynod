@@ -13,10 +13,7 @@ final class HUDPresenter {
     private var hudView: HUDView?
     private var hideWorkItem: DispatchWorkItem?
 
-    /// v1 UI에서는 nearCursor 고정 (설정 노출은 M3)
-    var position: HUDPosition = .nearCursor
-
-    func show(at cursor: CGPoint) {
+    func show(at cursor: CGPoint, position: HUDPosition) {
         let screens = NSScreen.screens.map(\.visibleFrame)
         guard !screens.isEmpty else { return }
 

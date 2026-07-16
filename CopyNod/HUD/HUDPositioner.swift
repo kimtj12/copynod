@@ -1,7 +1,7 @@
 import Foundation
 
-/// HUD 위치 옵션 (v1 UI에는 nearCursor만 노출, 계산은 3종 모두 지원 — M3 대비)
-enum HUDPosition {
+/// HUD 위치 옵션. String raw는 UserDefaults 저장용, CaseIterable은 설정 UI 열거용.
+enum HUDPosition: String, CaseIterable {
     case nearCursor
     case bottomCenter
     case topRight

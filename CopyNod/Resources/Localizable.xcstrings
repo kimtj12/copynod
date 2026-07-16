@@ -1,6 +1,116 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "HUD Position" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HUD 위치"
+          }
+        }
+      }
+    },
+    "Near Cursor" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "커서 근처"
+          }
+        }
+      }
+    },
+    "Bottom Center" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "화면 하단 중앙"
+          }
+        }
+      }
+    },
+    "Top Right" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "오른쪽 위"
+          }
+        }
+      }
+    },
+    "Launch at Login" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로그인 시 자동 실행"
+          }
+        }
+      }
+    },
+    "Hide Menu Bar Icon" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메뉴바 아이콘 숨기기"
+          }
+        }
+      }
+    },
+    "To open settings again, launch CopyNod from Spotlight or Launchpad." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정을 다시 열려면 Spotlight나 Launchpad에서 CopyNod를 실행하세요."
+          }
+        }
+      }
+    },
+    "Settings…" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정…"
+          }
+        }
+      }
+    },
+    "CopyNod Settings" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CopyNod 설정"
+          }
+        }
+      }
+    },
+    "Check for Updates…" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "업데이트 확인…"
+          }
+        }
+      }
+    },
+    "Version %@" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "버전 %@"
+          }
+        }
+      }
+    },
     "Quit CopyNod" : {
       "localizations" : {
         "ko" : {
