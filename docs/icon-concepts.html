@@ -1,0 +1,322 @@
+<title>CopyNod 아이콘 시안 4종</title>
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --card: #ffffff;
+    --ink: #1a1d21;
+    --muted: #6b7280;
+    --line: #e3e6ec;
+    --chip-light: #ffffff;
+    --chip-dark: #1b1d21;
+    --chip-line: #dcdfe6;
+    --badge-bg: #eceef3;
+    --rec: #2f9e57;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17181b;
+      --card: #212327;
+      --ink: #ececf0;
+      --muted: #9aa0ab;
+      --line: #33363c;
+      --chip-light: #f2f3f6;
+      --chip-dark: #101114;
+      --chip-line: #3a3d44;
+      --badge-bg: #2c2f35;
+      --rec: #4cc272;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #17181b;
+    --card: #212327;
+    --ink: #ececf0;
+    --muted: #9aa0ab;
+    --line: #33363c;
+    --chip-light: #f2f3f6;
+    --chip-dark: #101114;
+    --chip-line: #3a3d44;
+    --badge-bg: #2c2f35;
+    --rec: #4cc272;
+  }
+  :root[data-theme="light"] {
+    --bg: #f5f6f8;
+    --card: #ffffff;
+    --ink: #1a1d21;
+    --muted: #6b7280;
+    --line: #e3e6ec;
+    --chip-light: #ffffff;
+    --chip-dark: #1b1d21;
+    --chip-line: #dcdfe6;
+    --badge-bg: #eceef3;
+    --rec: #2f9e57;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Apple SD Gothic Neo", "Helvetica Neue", sans-serif;
+    line-height: 1.55;
+    padding: 48px 24px 64px;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; }
+  header.page { margin-bottom: 36px; max-width: 62ch; }
+  h1 {
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    margin-bottom: 10px;
+  }
+  .sub { color: var(--muted); font-size: 0.95rem; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 22px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .card-head { display: flex; align-items: baseline; gap: 10px; }
+  .tag {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    background: var(--badge-bg);
+    color: var(--muted);
+    border-radius: 6px;
+    padding: 3px 8px;
+    flex-shrink: 0;
+  }
+  .card h2 { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; }
+  .rec-badge {
+    margin-left: auto;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--rec);
+    border: 1px solid var(--rec);
+    border-radius: 999px;
+    padding: 2px 9px;
+    white-space: nowrap;
+  }
+  .hero {
+    display: flex;
+    justify-content: center;
+    padding: 18px 0 6px;
+  }
+  .hero svg {
+    width: 168px;
+    height: 168px;
+    filter: drop-shadow(0 10px 22px rgba(0,0,0,0.18));
+  }
+  .sizes {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    justify-content: center;
+  }
+  .size-col { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .chip {
+    border-radius: 10px;
+    border: 1px solid var(--chip-line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+  }
+  .chip.light { background: var(--chip-light); }
+  .chip.dark { background: var(--chip-dark); }
+  .size-label {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .desc { font-size: 0.88rem; color: var(--muted); }
+  .desc strong { color: var(--ink); font-weight: 600; }
+  ul.pros {
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-left: 0;
+    list-style: none;
+  }
+  ul.pros li { padding-left: 1.3em; position: relative; }
+  ul.pros li.plus::before { content: "+"; position: absolute; left: 0.2em; color: var(--rec); font-weight: 700; }
+  ul.pros li.minus::before { content: "–"; position: absolute; left: 0.2em; color: var(--muted); font-weight: 700; }
+  footer.note {
+    margin-top: 36px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+    max-width: 72ch;
+  }
+</style>
+
+<div class="wrap">
+  <header class="page">
+    <h1>CopyNod 앱 아이콘 — 4가지 시안</h1>
+    <p class="sub">형태·구도 비교용 플랫 시안입니다. 최종본은 macOS 26용 Icon Composer에서 Liquid Glass 레이어로 합성되며, 여기서는 각 컨셉의 실루엣과 축소 가독성(64 / 32 / 16px)을 판단하는 것이 목적입니다.</p>
+  </header>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <!-- 공통 체크 -->
+      <linearGradient id="graphite" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#464b54"/>
+        <stop offset="1" stop-color="#24262c"/>
+      </linearGradient>
+      <linearGradient id="topGloss" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffffff" stop-opacity="0.16"/>
+        <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="softGround" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#f0f3f8"/>
+        <stop offset="1" stop-color="#d6dce6"/>
+      </linearGradient>
+      <linearGradient id="appleBlue" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#4a8dff"/>
+        <stop offset="1" stop-color="#2361e8"/>
+      </linearGradient>
+      <filter id="panelShadow" x="-30%" y="-30%" width="160%" height="160%">
+        <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#000000" flood-opacity="0.35"/>
+      </filter>
+
+      <!-- 시안 A: HUD 미니어처 -->
+      <symbol id="iconA" viewBox="0 0 512 512">
+        <rect x="16" y="16" width="480" height="480" rx="108" fill="url(#graphite)"/>
+        <rect x="16" y="16" width="480" height="240" rx="108" fill="url(#topGloss)"/>
+        <path d="M152 268 L224 340 L362 180" fill="none" stroke="#ffffff"
+              stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+
+      <!-- 시안 B: 끄덕이는 클립보드 -->
+      <symbol id="iconB" viewBox="0 0 512 512">
+        <rect x="16" y="16" width="480" height="480" rx="108" fill="url(#softGround)"/>
+        <g transform="rotate(-8 256 256)" filter="url(#panelShadow)">
+          <rect x="160" y="130" width="192" height="266" rx="26" fill="url(#graphite)"/>
+          <rect x="160" y="130" width="192" height="130" rx="26" fill="url(#topGloss)"/>
+          <rect x="216" y="104" width="80" height="52" rx="16" fill="#9aa2ae"/>
+          <rect x="216" y="104" width="80" height="26" rx="13" fill="#b7bdc7"/>
+          <path d="M212 268 L248 304 L316 216" fill="none" stroke="#34c759"
+                stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+      </symbol>
+
+      <!-- 시안 C: ⌘C 레터마크 -->
+      <symbol id="iconC" viewBox="0 0 512 512">
+        <rect x="16" y="16" width="480" height="480" rx="108" fill="url(#appleBlue)"/>
+        <rect x="16" y="16" width="480" height="240" rx="108" fill="url(#topGloss)"/>
+        <text x="256" y="324" text-anchor="middle" fill="#ffffff"
+              font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif"
+              font-size="196" font-weight="600" letter-spacing="4">⌘C</text>
+      </symbol>
+
+      <!-- 시안 D: 끄덕이는 HUD -->
+      <symbol id="iconD" viewBox="0 0 512 512">
+        <rect x="16" y="16" width="480" height="480" rx="108" fill="url(#softGround)"/>
+        <g transform="rotate(-6 256 256)" filter="url(#panelShadow)">
+          <rect x="122" y="122" width="268" height="268" rx="60" fill="url(#graphite)"/>
+          <rect x="122" y="122" width="268" height="134" rx="60" fill="url(#topGloss)"/>
+          <path d="M196 262 L244 310 L330 204" fill="none" stroke="#ffffff"
+                stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="grid">
+
+    <section class="card">
+      <div class="card-head">
+        <span class="tag">시안 A</span>
+        <h2>HUD 미니어처</h2>
+      </div>
+      <div class="hero"><svg viewBox="0 0 512 512"><use href="#iconA"/></svg></div>
+      <div class="sizes">
+        <div class="size-col"><div class="chip light"><svg width="64" height="64" viewBox="0 0 512 512"><use href="#iconA"/></svg></div><span class="size-label">64 라이트</span></div>
+        <div class="size-col"><div class="chip dark"><svg width="64" height="64" viewBox="0 0 512 512"><use href="#iconA"/></svg></div><span class="size-label">64 다크</span></div>
+        <div class="size-col"><div class="chip light"><svg width="32" height="32" viewBox="0 0 512 512"><use href="#iconA"/></svg></div><span class="size-label">32</span></div>
+        <div class="size-col"><div class="chip light"><svg width="16" height="16" viewBox="0 0 512 512"><use href="#iconA"/></svg></div><span class="size-label">16</span></div>
+      </div>
+      <p class="desc">앱이 띄우는 HUD 그 자체를 아이콘으로. <strong>그래파이트 글래스 전면 + 흰 체크 스트로크.</strong></p>
+      <ul class="pros">
+        <li class="plus">HUD 디자인과 1:1 — 브랜드 일관성 최강</li>
+        <li class="plus">16px까지 가독성 유지 (요소가 하나뿐)</li>
+        <li class="minus">체크 단독이라 다른 "완료" 계열 앱과 구분이 약함</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <span class="tag">시안 B</span>
+        <h2>끄덕이는 클립보드</h2>
+      </div>
+      <div class="hero"><svg viewBox="0 0 512 512"><use href="#iconB"/></svg></div>
+      <div class="sizes">
+        <div class="size-col"><div class="chip light"><svg width="64" height="64" viewBox="0 0 512 512"><use href="#iconB"/></svg></div><span class="size-label">64 라이트</span></div>
+        <div class="size-col"><div class="chip dark"><svg width="64" height="64" viewBox="0 0 512 512"><use href="#iconB"/></svg></div><span class="size-label">64 다크</span></div>
+        <div class="size-col"><div class="chip light"><svg width="32" height="32" viewBox="0 0 512 512"><use href="#iconB"/></svg></div><span class="size-label">32</span></div>
+        <div class="size-col"><div class="chip light"><svg width="16" height="16" viewBox="0 0 512 512"><use href="#iconB"/></svg></div><span class="size-label">16</span></div>
+      </div>
+      <p class="desc">클립보드가 살짝 기울어져 "끄덕"이는 형상. <strong>이름(Nod)의 시각화 + 그린 체크.</strong></p>
+      <ul class="pros">
+        <li class="plus">이름과의 연결이 가장 서사적</li>
+        <li class="minus">클립보드 = 클립보드 매니저로 오인될 소지 (비목표와 충돌)</li>
+        <li class="minus">32px 이하에서 클립·체크 디테일이 뭉개짐</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <span class="tag">시안 C</span>
+        <h2>⌘C 레터마크</h2>
+      </div>
+      <div class="hero"><svg viewBox="0 0 512 512"><use href="#iconC"/></svg></div>
+      <div class="sizes">
+        <div class="size-col"><div class="chip light"><svg width="64" height="64" viewBox="0 0 512 512"><use href="#iconC"/></svg></div><span class="size-label">64 라이트</span></div>
+        <div class="size-col"><div class="chip dark"><svg width="64" height="64" viewBox="0 0 512 512"><use href="#iconC"/></svg></div><span class="size-label">64 다크</span></div>
+        <div class="size-col"><div class="chip light"><svg width="32" height="32" viewBox="0 0 512 512"><use href="#iconC"/></svg></div><span class="size-label">32</span></div>
+        <div class="size-col"><div class="chip light"><svg width="16" height="16" viewBox="0 0 512 512"><use href="#iconC"/></svg></div><span class="size-label">16</span></div>
+      </div>
+      <p class="desc">단축키 그 자체를 새긴 레터마크. <strong>Apple 블루 지면 + SF 타이포.</strong></p>
+      <ul class="pros">
+        <li class="plus">기능(⌘C 감지) 연상이 가장 직접적</li>
+        <li class="minus">키보드·단축키 유틸들이 흔히 쓰는 문법 — 차별성 낮음</li>
+        <li class="minus">"복사 확인"이라는 핵심 가치(체크)가 없음</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <span class="tag">시안 D</span>
+        <h2>끄덕이는 HUD</h2>
+        <span class="rec-badge">추천</span>
+      </div>
+      <div class="hero"><svg viewBox="0 0 512 512"><use href="#iconD"/></svg></div>
+      <div class="sizes">
+        <div class="size-col"><div class="chip light"><svg width="64" height="64" viewBox="0 0 512 512"><use href="#iconD"/></svg></div><span class="size-label">64 라이트</span></div>
+        <div class="size-col"><div class="chip dark"><svg width="64" height="64" viewBox="0 0 512 512"><use href="#iconD"/></svg></div><span class="size-label">64 다크</span></div>
+        <div class="size-col"><div class="chip light"><svg width="32" height="32" viewBox="0 0 512 512"><use href="#iconD"/></svg></div><span class="size-label">32</span></div>
+        <div class="size-col"><div class="chip light"><svg width="16" height="16" viewBox="0 0 512 512"><use href="#iconD"/></svg></div><span class="size-label">16</span></div>
+      </div>
+      <p class="desc">HUD 패널이 살짝 기울어 "끄덕"여주는 순간. <strong>A의 명확성 + B의 이름 연결성.</strong></p>
+      <ul class="pros">
+        <li class="plus">"HUD가 끄덕여준다" — 앱 정체성의 한 줄 요약</li>
+        <li class="plus">배경/패널 2레이어 구조가 Liquid Glass 합성과 정합</li>
+        <li class="minus">A보다 요소가 하나 많아 16px에서 기울기 식별은 어려움</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <footer class="note">
+    참고: 기울기(끄덕임)는 B가 −8°, D가 −6°. macOS 26에서는 시스템이 스쿼클 마스크와 글래스 재질을 강제 적용하므로, 여기의 배경 그라디언트·그림자는 근사치입니다. 시안 확정 후 레이어 분리(배경 / 패널 / 체크) → Icon Composer 합성 + 14~15용 폴백 에셋 생성 순으로 진행합니다.
+  </footer>
+</div>
