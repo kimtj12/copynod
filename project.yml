@@ -1,0 +1,52 @@
+name: CopyNod
+options:
+  bundleIdPrefix: kr.ai.simpool
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+
+targets:
+  CopyNod:
+    type: application
+    platform: macOS
+    sources:
+      - CopyNod
+    info:
+      path: CopyNod/Info.plist
+      properties:
+        CFBundleDisplayName: CopyNod
+        LSUIElement: true
+        CFBundleShortVersionString: "0.1.0"
+        CFBundleVersion: "1"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: kr.ai.simpool.CopyNod
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_LANGUAGE: en
+
+  CopyNodTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - CopyNodTests
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: CopyNod
+
+schemes:
+  CopyNod:
+    build:
+      targets:
+        CopyNod: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - CopyNodTests

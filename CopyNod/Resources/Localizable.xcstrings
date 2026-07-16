@@ -1,0 +1,76 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Quit CopyNod" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CopyNod 종료"
+          }
+        }
+      }
+    },
+    "Watching for ⌘C / ⌘X" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⌘C / ⌘X 감지 중"
+          }
+        }
+      }
+    },
+    "Accessibility permission required" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "손쉬운 사용 권한 필요"
+          }
+        }
+      }
+    },
+    "CopyNod needs Accessibility access" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CopyNod에 손쉬운 사용 권한이 필요합니다"
+          }
+        }
+      }
+    },
+    "CopyNod shows a small checkmark when ⌘C or ⌘X actually copies something. Detecting those keys requires Accessibility access. CopyNod never reads your clipboard contents." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CopyNod는 ⌘C나 ⌘X로 복사가 실제로 되었을 때 작은 체크 표시를 띄웁니다. 이 키를 감지하려면 손쉬운 사용 권한이 필요합니다. CopyNod는 클립보드 내용을 읽지 않습니다."
+          }
+        }
+      }
+    },
+    "Open System Settings…" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시스템 설정 열기…"
+          }
+        }
+      }
+    },
+    "Enable CopyNod under Privacy & Security → Accessibility." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "개인정보 보호 및 보안 → 손쉬운 사용에서 CopyNod를 켜 주세요."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
