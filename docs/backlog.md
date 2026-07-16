@@ -2,14 +2,15 @@
 
 > 이번 구현 범위(M1+M2) 이후의 작업. 2026-07-17 기준.
 
-## M3 — 설정
+## M3 — 설정 (완료 — 2026-07-17, 스펙: #2)
 
-- [ ] 설정 창 (SwiftUI): HUD 위치 3종, 로그인 자동 실행, 메뉴바 아이콘 숨기기, 업데이트 확인
-- [ ] 메뉴바 드롭다운 메뉴 완성 (위치 서브메뉴 라디오, 자동 실행 토글, 설정 열기, Check for Updates, 종료)
-- [ ] 메뉴바 아이콘 숨김 모드 + 앱 재실행(`applicationShouldHandleReopen`) → 설정 창 패턴
-- [ ] HUD 위치 옵션 2종 추가 구현 (하단 중앙, 우상단 — 멀티 모니터: 커서가 있는 화면 기준)
-- [ ] `SMAppService.mainApp` 로그인 자동 실행
-- [ ] 로컬라이제이션 마무리 (String Catalog 영어/한국어 전체 검수)
+- [x] 설정 창 (SwiftUI): HUD 위치 3종, 로그인 자동 실행, 메뉴바 아이콘 숨기기, 업데이트 확인
+- [x] 메뉴바 드롭다운 메뉴 완성 (위치 서브메뉴 라디오, 자동 실행 토글, 설정 열기, Check for Updates, 종료)
+- [x] 메뉴바 아이콘 숨김 모드 + 앱 재실행(`applicationShouldHandleReopen`) → 설정 창 패턴
+- [x] HUD 위치 옵션 2종 추가 구현 (하단 중앙, 우상단 — 멀티 모니터: 커서가 있는 화면 기준)
+- [x] `SMAppService.mainApp` 로그인 자동 실행
+- [x] 로컬라이제이션 마무리 (String Catalog 영어/한국어 전체 검수)
+- 참고: Sparkle 2 통합(SPM, `SPUStandardUpdaterController`, `SUFeedURL`)은 M3에서 선반영 — M4에는 EdDSA 키·appcast 발행만 남음
 
 ## M4 — 마감·배포
 
