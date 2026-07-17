@@ -30,6 +30,8 @@ targets:
         # appcast 발행·EdDSA 서명은 M4 — 그 전까지 수동 확인은 서버 접근 실패가 정상
         SUFeedURL: https://kimtj12.github.io/copynod/appcast.xml
         SUEnableAutomaticChecks: true
+        # EdDSA 공개 키 — 개인 키는 로그인 키체인의 "Private key for signing Sparkle updates"
+        SUPublicEDKey: PuibY1eAngHFoB2zO5z6Bmg7h2w6rJG8BtUma0SlFU4=
     dependencies:
       - package: Sparkle
     settings:
@@ -37,6 +39,8 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: kr.ai.simpool.CopyNod
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_LANGUAGE: en
+        # notarization 요건 (scripts/release.sh)
+        ENABLE_HARDENED_RUNTIME: YES
 
   CopyNodTests:
     type: bundle.unit-test

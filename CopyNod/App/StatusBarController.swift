@@ -18,6 +18,16 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         set { statusItem.isVisible = newValue }
     }
 
+    /// 권한 미보유 시 경고 배지 아이콘 (planning.md 2.4)
+    var showsPermissionWarning: Bool = false {
+        didSet {
+            let name = showsPermissionWarning
+                ? "exclamationmark.triangle" : "checkmark.circle"
+            statusItem.button?.image = NSImage(systemSymbolName: name,
+                                               accessibilityDescription: "CopyNod")
+        }
+    }
+
     init(store: SettingsStore) {
         self.store = store
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)

@@ -12,16 +12,16 @@
 - [x] 로컬라이제이션 마무리 (String Catalog 영어/한국어 전체 검수)
 - 참고: Sparkle 2 통합(SPM, `SPUStandardUpdaterController`, `SUFeedURL`)은 M3에서 선반영 — M4에는 EdDSA 키·appcast 발행만 남음
 
-## M4 — 마감·배포
+## M4 — 마감·배포 (코드·문서 완료 — 2026-07-17, 남은 항목은 사용자 수동 단계)
 
-- [ ] 엣지 케이스 마감: 키 반복 디바운스, 연속 복사, 멀티 모니터 검증
-- [ ] 권한 회수 감지 → 아이콘 경고 배지 + 시스템 알림
-- [ ] 배터리 예산 검증: Activity Monitor Energy Impact / Idle Wake Ups, `powermetrics`
-- [ ] **Developer ID Application 인증서 발급** (계정은 있음, 인증서는 키체인에 없음 — 2026-07-17 확인)
-- [ ] notarization 파이프라인 (`notarytool`)
-- [ ] Sparkle: EdDSA 키 생성, appcast 호스팅(GitHub Pages 또는 Releases), 업데이트 플로우 테스트
-- [ ] GitHub Releases 릴리스 (zip 또는 DMG)
-- [ ] README: 기능·설치·프라이버시("네트워크 접근은 업데이트 확인뿐, 클립보드 내용을 읽지 않음") + MIT LICENSE 파일
+- [x] 엣지 케이스 마감: 키 반복 디바운스, 연속 복사, 멀티 모니터 클램핑 — M1~M2에서 구현·단위 테스트 완료임을 재확인 (실기기 멀티 모니터 확인은 "후속 — HUD 디자인·위치" 항목과 병행)
+- [x] 권한 회수 감지 → 아이콘 경고 배지 + 시스템 알림 (`PermissionWatcher` — TCC 분산 알림 기반, 상시 폴링 없음. 알림 클릭 시 시스템 설정 열림)
+- [ ] 배터리 예산 검증 — 절차는 [release.md](release.md) 참조 (실행은 사용자)
+- [ ] **Developer ID Application 인증서 발급** — 발급 절차는 [release.md](release.md) (사용자)
+- [x] notarization 파이프라인 — `scripts/release.sh` (archive → export → notarize → staple → appcast). 실행은 인증서·자격 증명 설정 후
+- [x] Sparkle EdDSA 키 생성 (로그인 키체인, 공개 키는 project.yml — **키체인 백업 필수**). appcast 발행·업데이트 플로우 테스트는 첫 릴리스 때
+- [ ] GitHub Releases 릴리스 (zip) — 인증서 발급 후 [release.md](release.md) 절차대로
+- [x] README(기능·설치·프라이버시) + MIT LICENSE
 
 ## 후속 — HUD 디자인·위치 세부 조정 (2026-07-17 실사용 피드백에서 등록)
 

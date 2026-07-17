@@ -180,6 +180,26 @@
           }
         }
       }
+    },
+    "Accessibility permission revoked" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "손쉬운 사용 권한이 회수되었습니다"
+          }
+        }
+      }
+    },
+    "CopyNod can no longer detect ⌘C. Click to re-enable it in System Settings." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CopyNod가 더 이상 ⌘C를 감지할 수 없습니다. 클릭하면 시스템 설정에서 다시 켤 수 있습니다."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

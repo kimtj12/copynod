@@ -10,6 +10,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var detector: (any CopyDetector)?
     private var verifier: CopyVerifier?
     private var updater: UpdaterController?
+    private var permissionWatcher: PermissionWatcher?
+    private let revocationNotifier = RevocationNotifier()
     private var onboardingWindow: NSWindow?
     private var settingsWindow: NSWindow?
     private var permissionPollTimer: Timer?
@@ -44,8 +46,34 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if PermissionManager.isTrusted {
             detector.start()
         } else {
+            statusBar.showsPermissionWarning = true
             PermissionManager.requestTrust()
             showOnboarding()
+        }
+
+        startWatchingPermissionChanges()
+    }
+
+    /// 권한 회수/재부여 감지 (planning.md 2.4): TCC DB 변경의 분산 알림을 받아
+    /// PermissionWatcher가 전이를 판정한다 — 상시 폴링 없음.
+    private func startWatchingPermissionChanges() {
+        let watcher = PermissionWatcher(isTrusted: { PermissionManager.isTrusted },
+                                        scheduler: MainScheduler()) { [weak self] trusted in
+            guard let self else { return }
+            self.statusBar?.showsPermissionWarning = !trusted
+            if trusted {
+                self.detector?.start()
+            } else {
+                self.detector?.stop()
+                self.revocationNotifier.notifyRevoked()
+            }
+        }
+        permissionWatcher = watcher
+        DistributedNotificationCenter.default().addObserver(
+            forName: PermissionWatcher.accessibilityAPINotification,
+            object: nil, queue: .main
+        ) { _ in
+            MainActor.assumeIsolated { watcher.accessibilityDatabaseChanged() }
         }
     }
 
@@ -98,6 +126,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 if PermissionManager.isTrusted {
                     self.stopPermissionPolling()
                     self.onboardingWindow?.close()
+                    self.statusBar?.showsPermissionWarning = false
                     self.detector?.start()
                 } else if self.onboardingWindow?.isVisible != true {
                     self.stopPermissionPolling()  // 창을 닫았으면 폴링도 멈춘다
