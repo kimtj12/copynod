@@ -80,3 +80,9 @@
 
 - ⌘C/⌘X 판정은 keyCode가 아닌 **문자 기반**(`charactersIgnoringModifiers`) — 비QWERTY 레이아웃 대응.
 - 테스트 시임 초안: "트리거 in → HUD 요청 out" 파이프라인 하나 + 순수 함수 `HUDPositioner` (planning.md 3.6, /to-spec에서 확정).
+
+## D15. 감지 baseline: 시점 샘플 → 워터마크 + ⌘-down arm (2026-07-17)
+
+- **결정**: `CopyVerifier`의 기준점을 keyDown 시점 샘플에서 영속 워터마크(`lastAccounted`)로 전환. `flagsChanged`에서 ⌘가 새로 눌릴 때 arm하되 배달 지연 ≥30ms면 스킵(오류를 항상 덜 해로운 FP 쪽으로), 판정 후 남은 창은 조용한 흡수로 정산. 검증 창 300ms→~1s(20회), 체인 소진·arm 스킵·즉시 판정은 os_log(debug) 진단. 상세 분석·잔여 오류 표: [detection-race-solutions.md](detection-race-solutions.md).
+- **근거**: 실사용 false negative 체감 ~20% — global monitor 비동기 전달 레이스로 baseline이 이미 "복사 후" 값이 되는 문제. 워터마크 단독은 planning.md 3.2의 금지 우회책(FP 창 무한)이라 기각 유지가 타당하나, ⌘-down arm이 FP 창을 ⌘-hold sub-second로 줄여 금지 사유가 해소됨. `CopyVerifier` 계층의 변경이라 감지 API와 무관 — MAS listen-only 경로에도 그대로 적용.
+- **기각**: active CGEventTap 승격 (시스템 전역 키 입력 경로 개입 + 탭 재활성화 운영 부담, 워터마크+arm으로 불필요 — backlog에서 제거), changeCount 상시 폴링 1차 신호 (상시 폴링 회피 원칙·"⌘C에 대한 반응" 정체성과 충돌. 단 Accessibility 권한을 통째로 없앨 수 있다는 전략적 가치는 별도 논의로 보류 — detection-race-solutions.md 6절).

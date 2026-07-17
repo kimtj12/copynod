@@ -106,20 +106,21 @@ CGEventTap과 비교 후 결정. 상세 비교는 [detection-api-comparison.md](
 - 결과의 방향이 "HUD 안 뜸"(false negative)이지 "잘못 뜸"이 아니므로 v1에서 수용한다.
 - 금지 우회책: "지난번 changeCount를 기억해두고 비교"하는 방식은 백그라운드 앱(패스워드 매니저 등)의 클립보드 조작 후 첫 ⌘C에서 false positive를 만들므로 쓰지 않는다.
 - 구조적 해결은 **active CGEventTap**(`.defaultTap`)뿐 — 이벤트가 대상 앱에 도달하기 전에 콜백이 동기 실행되어 baseline이 항상 복사 이전 값임이 보장된다 (listen-only 탭은 이 보장이 없음). 실사용에서 놓침이 체감되면 감지 계층을 이것으로 교체한다. 이 승격 경로를 위해 감지 로직을 프로토콜(`CopyDetector`) 뒤에 격리한다.
+- **2026-07-17 후속**: 실사용 체감 miss ~20%로 위 "빈도 낮음" 가정을 초과. baseline 재설계(워터마크 + ⌘-down arm)로 active 탭 승격 없이 이 레이스를 제거하는 분석은 [detection-race-solutions.md](detection-race-solutions.md) 참조. 위 금지 우회책은 **단독 사용 금지로 유지**되며, ⌘-down arm과 결합할 때만 금지 사유(FP)가 해소된다.
 
 ### 3.3 오탐 방지: 하이브리드 검증 (이벤트 = 트리거, changeCount = 검증)
 
 키 이벤트는 "복사 시도" 신호일 뿐 "복사 성공" 증거가 아니다. 선택 없음·앱의 복사 거부 시 HUD가 잘못 뜨는 것을 막기 위해:
 
-1. ⌘C 핸들러 첫 줄에서 `NSPasteboard.general.changeCount`(baseline)와 커서 위치를 기록.
-2. 50ms 간격으로 최대 6회(~300ms) `changeCount != baseline` 여부를 확인.
+1. ⌘C 핸들러에서 기준점과 커서 위치를 확보 — 기준점은 시점 샘플이 아닌 **워터마크** (2026-07-17 재설계: [detection-race-solutions.md](detection-race-solutions.md)). keyDown 시점에 이미 달라져 있으면 즉시 성공.
+2. 50ms 간격으로 최대 20회(~1s) `changeCount != baseline` 여부를 확인 (300ms에서 확대 — Office 등 늦은 write 대응).
 3. 달라졌으면 HUD 표시, 아니면 조용히 포기.
 
 - 비교는 `>`가 아니라 **`!=`** — 묻는 건 "기준값과 달라졌는가"이지 "증가했는가"가 아니며, changeCount의 단조 증가는 문서화된 계약이 아니라 구현 세부사항이다.
 - 재시도를 두는 이유: 웹앱(JS clipboard API)이나 무거운 앱은 키다운 후 수십~수백 ms 뒤에 파스트보드에 쓴다.
 - 같은 내용을 두 번 복사해도 changeCount는 바뀌므로 정상 동작.
 - 앱별 예외(VS Code의 선택 없는 ⌘C = 줄 복사 등)도 "클립보드가 실제로 바뀌었는가" 하나로 자동 수렴 — 앱별 분기 불필요.
-- 폴링은 ⌘C 직후 300ms 동안만 발생하므로 상시 폴링의 배터리 단점 없음.
+- 폴링은 ⌘C 직후 ~1s 동안만 발생하므로 상시 폴링의 배터리 단점 없음.
 
 **동시 체인 방지 — 세대(generation) 카운터**: ⌘C 연타 시 검증 체인이 겹쳐 변경 하나에 HUD가 여러 번 뜨는 것을 막는다. 검증기는 단일 객체로 두고, 트리거마다 `generation`을 증가시킨 뒤 각 체인은 매 tick에서 자기 세대가 최신인지 확인하고 아니면 스스로 소멸한다. 전 과정을 메인 스레드에서 돌려 락 없이 처리한다.
 

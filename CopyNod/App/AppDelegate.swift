@@ -41,6 +41,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         detector.onCopyKeyDown = { [weak verifier] isRepeat, cursor in
             verifier?.keyDown(isRepeat: isRepeat, cursor: cursor)
         }
+        detector.onCommandDown = { [weak verifier] lag in
+            verifier?.commandDown(lag: lag)
+        }
         self.detector = detector
 
         if PermissionManager.isTrusted {

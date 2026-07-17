@@ -50,6 +50,10 @@
 - [ ] MAU 근사 추적 — **방향 확정, 착수 보류** (2026-07-17 논의): 앱 내 텔레메트리 없이, Sparkle의 일 1회 appcast 요청을 Cloudflare Worker 프록시로 집계 (요청 수 ≈ DAU). `SUFeedURL` 1줄 변경 + 프라이버시 문구 1줄 추가 필요. README의 "no data collection" 약속과 충돌하는 앱 내 애널리틱스(옵트아웃 MAU 수집)는 하지 않기로 결정
 - [ ] Sentry 연동 — 크래시·에러 데이터 수집 (sentry-cocoa SPM). 프라이버시 문구(README·랜딩)와 정합 확인 필요 — "no crash reporting" 약속과 충돌하므로 도입 시 옵트인 여부 등 재논의
 
+## 후속 — 감지 신뢰성 (2026-07-17 등록)
+
+- [x] false negative 체감 ~20% 해소: baseline **워터마크 + ⌘-down arm** + 검증 창 300ms→~1s 확대 + miss 진단 로그(os_log debug). 상세 스펙·잔여 오류 표·테스트 목록: [detection-race-solutions.md](detection-race-solutions.md) (2026-07-17 구현 — `CopyVerifier` 워터마크·arm·조용한 흡수, `KeyEventCopyDetector` flagsChanged, 테스트 15종. 결정 기록: decisions.md D15. 실기기 체감률 재측정은 사용자 확인 대기)
+
 ## 보류된 결정
 
 - [x] **앱 아이콘 확정** — 시안 4종: [icon-concepts.html](icon-concepts.html) (아티팩트: https://claude.ai/code/artifact/f64122a0-6f9e-4dd2-a166-5bb4f280f51d ). 확정 후: 레이어 분리 → Icon Composer로 26+ Liquid Glass `.icon` 제작 + 14~15용 폴백 에셋(asset catalog) 두 벌.
@@ -58,6 +62,5 @@
 
 - [ ] 잘라내기(⌘X) 구분 표시 — 가위 아이콘 등 (v1은 복사와 동일한 체크 HUD)
 - [ ] Homebrew cask 등재 (오픈소스+notarized면 요건 충족 용이)
-- [ ] 감지 계층 CGEventTap(`.defaultTap`) 승격 — 실사용에서 false negative(HUD 안 뜸)가 체감될 때. `CopyDetector` 프로토콜 뒤로 격리해둔 이유 (planning.md 3.2)
 - [ ] 추가 언어 (String Catalog 구조라 구조 변경 없이 가능)
 - [ ] 유료 Pro 기능 검토 (위치 커스텀 등) — v1 검증 이후에만

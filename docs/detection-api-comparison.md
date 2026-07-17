@@ -9,6 +9,7 @@
 - **레이스 구조적 해결이 필요해지면**: **active CGEventTap**(`.defaultTap`)으로 승격. listen-only 탭은 타이밍 보장이 없어 교체 의미가 없다.
 - **Mac App Store 배포 시**: NSEvent 모니터는 샌드박스에서 동작하지 않으므로 **CGEventTap listen-only + Input Monitoring 권한**이 유일한 경로. 이 경우 active 탭 승격 경로는 포기해야 한다.
 - 어느 경로든 `CopyDetector` 프로토콜 뒤에 감지 계층을 격리해 구현체 교체로 대응한다.
+- **2026-07-17 후속**: baseline을 시점 샘플이 아닌 **워터마크 + ⌘-down arm**으로 재설계하면 active 승격 없이 레이스가 제거된다 — [detection-race-solutions.md](detection-race-solutions.md)가 본 문서의 "레이스 구조적 해결 = active 승격" 결론을 대체한다. 감지 API와 무관한 `CopyVerifier` 계층의 변경이므로 MAS의 listen-only 경로에도 그대로 적용된다.
 
 ## 2. API 비교
 

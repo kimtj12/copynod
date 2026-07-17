@@ -3,7 +3,7 @@ import Foundation
 @testable import CopyNod
 
 // 시임 1: CopyVerifier 파이프라인 — 트리거 in → HUD 표시 요청 out.
-// changeCount 제공자와 스케줄러를 주입해 타이밍·세대 로직을 결정적으로 검증한다.
+// changeCount 제공자와 스케줄러를 주입해 타이밍·세대·워터마크 로직을 결정적으로 검증한다.
 // 외부 행동(요청 횟수·위치)만 단언하고 내부 상태는 보지 않는다.
 
 final class FakePasteboard: PasteboardChangeCounting {
@@ -23,6 +23,11 @@ final class FakeScheduler: Scheduling {
     func tick() {
         guard !queue.isEmpty else { return }
         queue.removeFirst()()
+    }
+
+    /// 예약이 소진될 때까지 실행 (검증·흡수 창 전체 경과에 해당)
+    func drain() {
+        while !queue.isEmpty { tick() }
     }
 }
 
@@ -49,34 +54,35 @@ struct CopyVerifierTests {
         #expect(requests() == [CGPoint(x: 10, y: 20)])
     }
 
-    @Test("클립보드가 안 변하면 6회 확인 후 조용히 포기한다 (요청 0회)")
-    func noChangeGivesUpAfterSixChecks() {
+    @Test("클립보드가 안 변하면 검증 창(20회) 소진 후 조용히 포기한다 (요청 0회)")
+    func noChangeGivesUpAfterWindow() {
         let (verifier, requests) = makeVerifier()
         verifier.keyDown(isRepeat: false, cursor: .zero)
-        for _ in 0..<6 { scheduler.tick() }
+        for _ in 0..<CopyVerifier.maxAttempts { scheduler.tick() }
         #expect(requests().isEmpty)
-        // 7번째 확인은 예약조차 되지 않는다
+        // 다음 확인은 예약조차 되지 않는다
         #expect(scheduler.scheduledCount == 0)
     }
 
-    @Test("느린 앱: 마지막(6번째) 확인 직전의 변경도 감지한다")
-    func lateChangeDetectedOnSixthCheck() {
+    @Test("느린 앱: 마지막(20번째) 확인 직전의 변경도 감지한다")
+    func lateChangeDetectedOnLastCheck() {
         let (verifier, requests) = makeVerifier()
         verifier.keyDown(isRepeat: false, cursor: .zero)
-        for _ in 0..<5 { scheduler.tick() }  // 5회 무변경
+        for _ in 0..<(CopyVerifier.maxAttempts - 1) { scheduler.tick() }  // 19회 무변경
         pasteboard.changeCount += 1
-        scheduler.tick()  // 6번째 확인
+        scheduler.tick()  // 마지막 확인
         #expect(requests().count == 1)
     }
 
-    @Test("성공 후 체인이 멈춘다 — 변경 1건에 요청은 1회뿐")
-    func chainStopsAfterSuccess() {
+    @Test("성공 후 추가 요청이 없다 — 남은 창은 조용한 정산(흡수)뿐이며 유한하게 끝난다")
+    func successProducesNoFurtherRequests() {
         let (verifier, requests) = makeVerifier()
         verifier.keyDown(isRepeat: false, cursor: .zero)
         pasteboard.changeCount += 1
         scheduler.tick()
-        #expect(scheduler.scheduledCount == 0)  // 추가 확인 예약 없음
+        scheduler.drain()  // 흡수 창까지 전부 경과
         #expect(requests().count == 1)
+        #expect(scheduler.scheduledCount == 0)
     }
 
     @Test("⌘C 연타: 구세대 체인이 소멸해 변경 1건당 요청은 최대 1회, 최신 커서 위치로 나온다")
@@ -115,6 +121,79 @@ struct CopyVerifierTests {
         verifier.keyDown(isRepeat: false, cursor: .zero)
         verifier.keyDown(isRepeat: true, cursor: .zero)  // 반복 이벤트
         pasteboard.changeCount += 1
+        scheduler.tick()
+        #expect(requests().count == 1)
+    }
+
+    // MARK: - 워터마크 + ⌘-down arm (detection-race-solutions.md)
+
+    @Test("keyDown 시점에 이미 변해 있으면 즉시 감지한다 — 비동기 전달 레이스의 결정적 재현")
+    func preKeyDownWriteDetectedImmediately() {
+        let (verifier, requests) = makeVerifier()
+        pasteboard.changeCount += 1  // 대상 앱이 우리 핸들러보다 먼저 write를 끝냄
+        verifier.keyDown(isRepeat: false, cursor: CGPoint(x: 5, y: 6))
+        #expect(requests() == [CGPoint(x: 5, y: 6)])  // tick 없이 즉시
+    }
+
+    @Test("⌘-down arm 이후의 write도 keyDown에서 즉시 감지된다")
+    func writeAfterArmDetectedImmediately() {
+        let (verifier, requests) = makeVerifier()
+        verifier.commandDown(lag: 0)
+        pasteboard.changeCount += 1
+        verifier.keyDown(isRepeat: false, cursor: .zero)
+        #expect(requests().count == 1)
+    }
+
+    @Test("⌘-down arm이 백그라운드 write를 흡수해 빈 ⌘C에 요청이 없다 — planning.md 3.2 금지 우회책의 FP 시나리오")
+    func armAbsorbsStaleWriteSoEmptyCopyStaysQuiet() {
+        let (verifier, requests) = makeVerifier()
+        pasteboard.changeCount += 1  // 패스워드 매니저 등 백그라운드 write
+        verifier.commandDown(lag: 0)  // ⌘ 눌림 — 여기서 조용히 정산
+        verifier.keyDown(isRepeat: false, cursor: .zero)  // 빈 선택 ⌘C (실제 복사 없음)
+        scheduler.drain()
+        #expect(requests().isEmpty)
+    }
+
+    @Test("배달이 늦은 arm은 무시되고 이전 워터마크로 폴백한다 — 오류는 FN이 아닌 FP 쪽으로")
+    func laggedArmIsIgnored() {
+        let (verifier, requests) = makeVerifier()
+        pasteboard.changeCount += 1
+        verifier.commandDown(lag: CopyVerifier.maxArmLag + 0.01)  // 지연 초과 — 흡수하지 않음
+        verifier.keyDown(isRepeat: false, cursor: .zero)
+        #expect(requests().count == 1)  // 이전 워터마크 기준으론 변경이 있으므로 요청이 나온다
+    }
+
+    @Test("즉시 판정 직후 도착한 write는 조용히 정산된다 — 추가 요청 없음, 다음 빈 ⌘C도 조용")
+    func absorbAfterImmediateVerify() {
+        let (verifier, requests) = makeVerifier()
+        pasteboard.changeCount += 1
+        verifier.keyDown(isRepeat: false, cursor: .zero)  // 즉시 판정
+        pasteboard.changeCount += 1  // 이번 press의 실제 write가 직후 도착
+        scheduler.drain()  // 흡수 창 소진
+        verifier.keyDown(isRepeat: false, cursor: .zero)  // 빈 선택 ⌘C
+        scheduler.drain()
+        #expect(requests().count == 1)
+    }
+
+    @Test("체인 성공 후의 2차 bump도 정산된다 — 다음 빈 ⌘C에 FP 없음")
+    func absorbAfterChainSuccess() {
+        let (verifier, requests) = makeVerifier()
+        verifier.keyDown(isRepeat: false, cursor: .zero)
+        pasteboard.changeCount += 1
+        scheduler.tick()  // 감지
+        pasteboard.changeCount += 1  // 같은 복사의 2차 bump (clear + write)
+        scheduler.drain()
+        verifier.keyDown(isRepeat: false, cursor: .zero)  // 빈 선택 ⌘C
+        scheduler.drain()
+        #expect(requests().count == 1)
+    }
+
+    @Test("진행 중 체인 도중의 arm이 늦은 감지를 잃게 하지 않는다 — 체인은 자기 baseline과 비교한다")
+    func armDuringPendingChainKeepsLateDetection() {
+        let (verifier, requests) = makeVerifier()
+        verifier.keyDown(isRepeat: false, cursor: .zero)
+        pasteboard.changeCount += 1  // 늦은 write 도착
+        verifier.commandDown(lag: 0)  // 다음 복사 준비로 ⌘ 눌림 — 워터마크는 이 write를 정산
         scheduler.tick()
         #expect(requests().count == 1)
     }
