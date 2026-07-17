@@ -1,5 +1,7 @@
 # CopyNod
 
+![Downloads](https://img.shields.io/github/downloads/kimtj12/copynod/total)
+
 A tiny macOS menu bar utility that shows a small check-mark HUD **only when ⌘C / ⌘X actually copied something** — so you never have to paste just to find out.
 
 - **No false positives** — a key press is only a *trigger*; the HUD appears only after the clipboard `changeCount` actually changes. No selection, or the app refused to copy? Nothing is shown.

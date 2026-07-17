@@ -1,0 +1,49 @@
+# 릴리스 asset의 누적 download_count를 하루 1회 CSV로 스냅샷한다.
+# 카운트에 변화가 없는 날은 커밋하지 않는다. (docs/backlog.md — 다운로드 추적)
+name: download-stats
+
+on:
+  schedule:
+    - cron: "17 0 * * *" # 매일 00:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Append download counts if changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          csv=data/downloads.csv
+          mkdir -p data
+          [ -f "$csv" ] || echo "date,tag,asset,downloads" > "$csv"
+
+          gh api "repos/${GITHUB_REPOSITORY}/releases" --paginate \
+            --jq '.[] | .tag_name as $t | .assets[] | "\($t),\(.name),\(.download_count)"' \
+            | sort > /tmp/now.csv
+
+          # 기존 CSV에서 tag,asset별 마지막 스냅샷만 추출해 현재 값과 비교
+          tail -n +2 "$csv" \
+            | awk -F, '{ last[$2","$3] = $4 } END { for (k in last) print k "," last[k] }' \
+            | sort > /tmp/prev.csv
+
+          if cmp -s /tmp/now.csv /tmp/prev.csv; then
+            echo "No change in download counts — skipping commit"
+            exit 0
+          fi
+
+          date=$(date -u +%F)
+          sed "s/^/${date},/" /tmp/now.csv >> "$csv"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$csv"
+          git commit -m "chore: download stats ${date}"
+          git push
