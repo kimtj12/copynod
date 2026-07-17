@@ -31,6 +31,14 @@ enum HUDPositioner {
         }
     }
 
+    /// 잉크 리플용 중심점. 커서 근처는 커서 지점 그대로 — 잉크가 떨어진 지점이라는 은유에 맞게
+    /// 클램핑 없이 화면 밖 잘림을 허용한다. 고정 위치는 클래식 배지의 중심과 같은 지점.
+    static func rippleCenter(for position: HUDPosition, badgeSize: CGSize, cursor: CGPoint, screens: [CGRect]) -> CGPoint {
+        guard position != .nearCursor else { return cursor }
+        let o = origin(for: position, hudSize: badgeSize, cursor: cursor, screens: screens)
+        return CGPoint(x: o.x + badgeSize.width / 2, y: o.y + badgeSize.height / 2)
+    }
+
     private static func clamp(_ origin: CGPoint, hudSize: CGSize, in screen: CGRect) -> CGPoint {
         CGPoint(
             x: min(max(origin.x, screen.minX + edgePadding), screen.maxX - hudSize.width - edgePadding),

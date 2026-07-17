@@ -12,11 +12,21 @@ final class HUDPresenter {
     private var panel: HUDPanel?
     private var hudView: HUDView?
     private var hideWorkItem: DispatchWorkItem?
+    private var ripplePanel: HUDPanel?
+    private var rippleView: InkRippleView?
+    private var isRipplePlaying = false
 
-    func show(at cursor: CGPoint, position: HUDPosition) {
+    func show(at cursor: CGPoint, position: HUDPosition, style: HUDStyle) {
         let screens = NSScreen.screens.map(\.visibleFrame)
         guard !screens.isEmpty else { return }
 
+        switch style {
+        case .classic: showClassic(at: cursor, position: position, screens: screens)
+        case .inkRipple: showRipple(at: cursor, position: position, screens: screens)
+        }
+    }
+
+    private func showClassic(at cursor: CGPoint, position: HUDPosition, screens: [CGRect]) {
         hideWorkItem?.cancel()
 
         // 표시 중 재트리거: 위치는 유지하고 표시 시간만 연장 (디바운스 — planning.md 5절).
@@ -45,6 +55,24 @@ final class HUDPresenter {
         scheduleHide()
     }
 
+    /// 원샷 애니메이션 (~0.4s) — 진행 중 재트리거는 무시한다 (키 반복에 요란하지 않게).
+    /// 링·체크가 스스로 opacity 0으로 끝나므로 패널 페이드 없이 완료 시 orderOut만 한다.
+    private func showRipple(at cursor: CGPoint, position: HUDPosition, screens: [CGRect]) {
+        guard !isRipplePlaying else { return }
+
+        let panel = ensureRipplePanel()
+        let center = HUDPositioner.rippleCenter(for: position, badgeSize: Self.hudSize,
+                                                cursor: cursor, screens: screens)
+        panel.setFrameOrigin(CGPoint(x: center.x - InkRippleView.size.width / 2,
+                                     y: center.y - InkRippleView.size.height / 2))
+        panel.orderFrontRegardless()
+        isRipplePlaying = true
+        rippleView?.play { [weak self] in
+            self?.isRipplePlaying = false
+            self?.ripplePanel?.orderOut(nil)
+        }
+    }
+
     private func scheduleHide() {
         let item = DispatchWorkItem { [weak self] in self?.hide() }
         hideWorkItem = item
@@ -71,6 +99,16 @@ final class HUDPresenter {
         newPanel.contentView = view
         panel = newPanel
         hudView = view
+        return newPanel
+    }
+
+    private func ensureRipplePanel() -> HUDPanel {
+        if let ripplePanel { return ripplePanel }
+        let view = InkRippleView()
+        let newPanel = HUDPanel(contentRect: NSRect(origin: .zero, size: InkRippleView.size))
+        newPanel.contentView = view
+        ripplePanel = newPanel
+        rippleView = view
         return newPanel
     }
 }

@@ -44,6 +44,16 @@
         }
       }
     },
+    "Classic" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "클래식"
+          }
+        }
+      }
+    },
     "CopyNod can no longer detect ⌘C. Click to re-enable it in System Settings." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -114,6 +124,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "HUD 위치"
+          }
+        }
+      }
+    },
+    "HUD Style" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HUD 스타일"
+          }
+        }
+      }
+    },
+    "Ink Ripple" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잉크 리플"
           }
         }
       }

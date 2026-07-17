@@ -20,6 +20,13 @@ struct SettingsView: View {
                     }
                 }
                 .pickerStyle(.radioGroup)
+
+                Picker("HUD Style", selection: $store.hudStyle) {
+                    ForEach(HUDStyle.allCases, id: \.self) { style in
+                        Text(style.label).tag(style)
+                    }
+                }
+                .pickerStyle(.radioGroup)
             }
 
             Section {

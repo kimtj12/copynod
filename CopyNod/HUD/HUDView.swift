@@ -66,8 +66,8 @@ final class HUDView: NSView {
         checkLayer.add(draw, forKey: "draw")
     }
 
-    /// 64pt 기준 체크 좌표를 실제 크기로 스케일 (좌표계 y 위로 증가)
-    private static func checkPath(scaledTo size: CGSize) -> CGPath {
+    /// 64pt 기준 체크 좌표를 실제 크기로 스케일 (좌표계 y 위로 증가). InkRippleView의 잔상도 공유.
+    static func checkPath(scaledTo size: CGSize) -> CGPath {
         let s = size.width / 64
         let path = CGMutablePath()
         path.move(to: CGPoint(x: 19 * s, y: 33 * s))

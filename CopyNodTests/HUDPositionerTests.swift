@@ -70,6 +70,41 @@ struct HUDPositionerTests {
         #expect(origin == CGPoint(x: 1360, y: 756))
     }
 
+    @Test("리플 중심: 커서 근처는 커서 지점 그대로 — 모서리에서도 클램핑하지 않는다")
+    func rippleCenterNearCursorIsCursorUnclamped() {
+        let center = HUDPositioner.rippleCenter(
+            for: .nearCursor,
+            badgeSize: hudSize,
+            cursor: CGPoint(x: 1435, y: 5),
+            screens: [screen]
+        )
+        #expect(center == CGPoint(x: 1435, y: 5))
+    }
+
+    @Test("리플 중심: 하단 중앙은 클래식 배지의 중심과 같은 지점")
+    func rippleCenterBottomCenterMatchesBadgeCenter() {
+        let center = HUDPositioner.rippleCenter(
+            for: .bottomCenter,
+            badgeSize: hudSize,
+            cursor: CGPoint(x: 500, y: 500),
+            screens: [screen]
+        )
+        // 배지 원점 (720 - 32, 100) + 배지 절반 (32, 32)
+        #expect(center == CGPoint(x: 720, y: 132))
+    }
+
+    @Test("리플 중심: 오른쪽 위는 클래식 배지의 중심과 같은 지점")
+    func rippleCenterTopRightMatchesBadgeCenter() {
+        let center = HUDPositioner.rippleCenter(
+            for: .topRight,
+            badgeSize: hudSize,
+            cursor: CGPoint(x: 500, y: 500),
+            screens: [screen]
+        )
+        // 배지 원점 (1360, 756) + 배지 절반 (32, 32)
+        #expect(center == CGPoint(x: 1392, y: 788))
+    }
+
     @Test("커서가 어느 화면에도 없으면 첫 화면 기준으로 클램핑한다")
     func cursorOutsideAllScreensFallsBackToFirst() {
         let origin = HUDPositioner.origin(

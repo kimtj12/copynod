@@ -33,7 +33,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         let verifier = CopyVerifier(pasteboard: GeneralPasteboard(),
                                     scheduler: MainScheduler()) { [presenter, store] cursor in
-            presenter.show(at: cursor, position: store.hudPosition)
+            presenter.show(at: cursor, position: store.hudPosition, style: store.hudStyle)
         }
         self.verifier = verifier
 
