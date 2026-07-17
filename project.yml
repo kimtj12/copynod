@@ -52,6 +52,8 @@ targets:
     settings:
       base:
         GENERATE_INFOPLIST_FILE: YES
+        # 호스트 앱(hardened runtime)과 같은 팀으로 서명해야 테스트 번들이 로드된다
+        DEVELOPMENT_TEAM: RC348YTD6U
     dependencies:
       - target: CopyNod
 
