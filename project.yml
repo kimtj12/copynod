@@ -25,8 +25,8 @@ targets:
       properties:
         CFBundleDisplayName: CopyNod
         LSUIElement: true
-        CFBundleShortVersionString: "0.1.0"
-        CFBundleVersion: "1"
+        CFBundleShortVersionString: "0.2.0"
+        CFBundleVersion: "2"
         # appcast 발행·EdDSA 서명은 M4 — 그 전까지 수동 확인은 서버 접근 실패가 정상
         SUFeedURL: https://kimtj12.github.io/copynod/appcast.xml
         SUEnableAutomaticChecks: true
