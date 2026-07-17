@@ -28,13 +28,15 @@ VERSION=$(defaults read "$PWD/$APP/Contents/Info" CFBundleShortVersionString)
 ZIP="$BUILD/CopyNod-$VERSION.zip"
 
 echo "==> Notarize (버전 $VERSION)"
-ditto -c -k --keepParent "$APP" "$ZIP"
+# --norsrc: 확장 속성(com.apple.provenance 등)을 AppleDouble(._*)로 zip에 넣지 않는다.
+# 넣으면 Finder 압축 해제가 심볼릭 링크의 ._* 파일을 실파일로 남겨 Gatekeeper가 거부한다.
+ditto -c -k --norsrc --keepParent "$APP" "$ZIP"
 xcrun notarytool submit "$ZIP" --keychain-profile copynod-notary --wait
 
 echo "==> Staple 후 재압축"
 xcrun stapler staple "$APP"
 rm "$ZIP"
-ditto -c -k --keepParent "$APP" "$ZIP"
+ditto -c -k --norsrc --keepParent "$APP" "$ZIP"
 
 # appcast는 최신 릴리스 1건만 담는다 (의도) — Sparkle 업데이트에는 최신 항목이면 충분하고,
 # 과거 릴리스 이력은 GitHub Releases가 보존한다.

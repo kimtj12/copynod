@@ -4,11 +4,11 @@
         <title>CopyNod</title>
         <item>
             <title>0.1.0</title>
-            <pubDate>Fri, 17 Jul 2026 16:57:04 +0900</pubDate>
+            <pubDate>Fri, 17 Jul 2026 17:13:22 +0900</pubDate>
             <sparkle:version>1</sparkle:version>
             <sparkle:shortVersionString>0.1.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/kimtj12/copynod/releases/download/v0.1.0/CopyNod-0.1.0.zip" length="2634685" type="application/octet-stream" sparkle:edSignature="VYxLFeznBWtm+d32tIBHg6LQU/WL58oX/PJm8QH0Yd6ug4PVkQ09++p5D4Dw8a1oShaUXP75TZharMYrdXfEBQ=="/>
+            <enclosure url="https://github.com/kimtj12/copynod/releases/download/v0.1.0/CopyNod-0.1.0.zip" length="2585511" type="application/octet-stream" sparkle:edSignature="PgVsJqhaisUd5kFG/wEU3hZ2vkAwDrfZrGUV5Ea3eW1j2tnysTa9sSIKTuPKt0PFuaIsW7HjLPvZkHb6iYxIBA=="/>
         </item>
     </channel>
 </rss>
