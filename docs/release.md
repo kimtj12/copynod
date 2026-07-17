@@ -4,13 +4,12 @@
 
 ## 1회 설정 (릴리스 전 필수)
 
-1. **Developer ID Application 인증서** — 현재 키체인에 없음 (2026-07-17 확인).
-   - Xcode → Settings → Accounts → 팀(YYQ8RM9QJ9) 선택 → Manage Certificates… → `+` → Developer ID Application.
-   - 확인: `security find-identity -v -p codesigning`에 "Developer ID Application"이 보여야 함.
-2. **notarytool 자격 증명** — [appleid.apple.com](https://appleid.apple.com)에서 앱 암호(app-specific password) 발급 후:
+1. **Developer ID Application 인증서** — 완료. SIMPOOL Inc. (RC348YTD6U) 인증서가 키체인에 있음 (2026-07-17 확인, 배포 명의를 회사 팀으로 확정).
+   - 확인: `security find-identity -v -p codesigning`에 "Developer ID Application: SIMPOOL Inc. (RC348YTD6U)"이 보여야 함.
+2. **notarytool 자격 증명** — 완료 (2026-07-17, 키체인 프로파일 `copynod-notary`). 재설정이 필요하면 [account.apple.com](https://account.apple.com)에서 앱 암호(app-specific password) 발급 후:
    ```bash
    xcrun notarytool store-credentials copynod-notary \
-     --apple-id <애플ID 이메일> --team-id YYQ8RM9QJ9 --password <앱 암호>
+     --apple-id <애플ID 이메일> --team-id RC348YTD6U --password <앱 암호>
    ```
 3. **Sparkle EdDSA 키** — 생성 완료 (2026-07-17, 로그인 키체인의 "Private key for signing Sparkle updates").
    공개 키는 project.yml의 `SUPublicEDKey`. **이 키를 잃으면 기존 사용자에게 업데이트를 배포할 수 없으니 키체인 백업 필수.**

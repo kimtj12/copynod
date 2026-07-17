@@ -39,6 +39,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: kr.ai.simpool.CopyNod
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: RC348YTD6U  # SIMPOOL Inc. — 배포 명의 (docs/release.md)
         DEVELOPMENT_LANGUAGE: en
         # notarization 요건 (scripts/release.sh)
         ENABLE_HARDENED_RUNTIME: YES

@@ -4,7 +4,7 @@
 # 사전 요건 (1회 설정, docs/release.md 참조):
 #   1. Developer ID Application 인증서가 키체인에 있을 것
 #   2. notarytool 자격 증명: xcrun notarytool store-credentials copynod-notary \
-#        --apple-id <애플ID> --team-id YYQ8RM9QJ9 --password <앱 암호>
+#        --apple-id <애플ID> --team-id RC348YTD6U --password <앱 암호>
 #   3. Sparkle EdDSA 개인 키가 로그인 키체인에 있을 것 (generate_keys로 생성)
 #
 # 사용: scripts/release.sh
