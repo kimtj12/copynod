@@ -6,10 +6,13 @@
     {
       "layers" : [
         {
+          "blend-mode" : "normal",
+          "glass" : false,
           "image-name" : "front-doc.svg",
           "name" : "front-doc"
         },
         {
+          "glass" : true,
           "image-name" : "back-doc.svg",
           "name" : "back-doc"
         }
