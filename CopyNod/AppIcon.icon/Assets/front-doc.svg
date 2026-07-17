@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <g transform="rotate(1.9 565.5 551)">
+    <path fill="#F7FDF9" d="M 371 246.5
+      H 673
+      Q 683 246.5 690.1 253.6
+      L 809.9 373.4
+      Q 817 380.5 817 390.5
+      V 798.5
+      Q 817 855.5 760 855.5
+      H 371
+      Q 314 855.5 314 798.5
+      V 303.5
+      Q 314 246.5 371 246.5
+      Z"/>
+  </g>
+  <path fill="none" stroke="#08A252" stroke-width="46" stroke-linecap="round"
+    d="M 567.5 781 Q 650 756 755 690"/>
+</svg>
