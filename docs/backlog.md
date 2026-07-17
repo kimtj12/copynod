@@ -23,6 +23,12 @@
 - [ ] GitHub Releases 릴리스 (zip 또는 DMG)
 - [ ] README: 기능·설치·프라이버시("네트워크 접근은 업데이트 확인뿐, 클립보드 내용을 읽지 않음") + MIT LICENSE 파일
 
+## 후속 — HUD 디자인·위치 세부 조정 (2026-07-17 실사용 피드백에서 등록)
+
+- [ ] HUD 룩 폴리시: 배지 크기(현재 64pt)·체크 선 굵기·애니메이션 타이밍(드로잉 0.25s / 표시 0.75s / 페이드 아웃 0.25s) 실사용 기준 재조정, 26+ Liquid Glass vs 14~15 폴백 룩 비교 검수
+- [ ] 위치 상수 튜닝: 커서 오프셋(16pt), 하단 중앙 높이(100pt), 우상단 여백(16/80pt), 가장자리 클램핑 여백(8pt) — `HUDPositioner` 상수라 테스트 기대값과 함께 조정
+- [ ] 위치 미리보기: 설정에서 위치를 바꾸면 샘플 HUD를 1회 표시해 즉시 확인
+
 ## 보류된 결정
 
 - [ ] **앱 아이콘 확정** — 시안 4종: [icon-concepts.html](icon-concepts.html) (아티팩트: https://claude.ai/code/artifact/f64122a0-6f9e-4dd2-a166-5bb4f280f51d ). 확정 후: 레이어 분리 → Icon Composer로 26+ Liquid Glass `.icon` 제작 + 14~15용 폴백 에셋(asset catalog) 두 벌.
