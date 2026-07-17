@@ -124,7 +124,7 @@ footer{border-top:1px solid var(--border);padding:44px 24px 56px;text-align:cent
   <h1 data-i18n="heroTitle">Did that actually copy?</h1>
   <p class="hero-sub" data-i18n="heroSub">A tiny menu bar utility that shows a check mark only when ⌘C actually copied something — so you never paste just to find out.</p>
   <div class="hero-ctas">
-    <a class="btn-primary" href="https://github.com/kimtj12/copynod/releases/latest" data-i18n="cta">Download for macOS</a>
+    <a id="download-btn" class="btn-primary" href="https://github.com/kimtj12/copynod/releases/latest" data-i18n="cta">Download for macOS</a>
     <a class="gh-link" href="https://github.com/kimtj12/copynod"><span data-i18n="ghLink">View on GitHub</span> ↗</a>
   </div>
   <p class="cta-fine" data-i18n="ctaFine">Free · Open source · macOS 14+</p>
@@ -458,6 +458,21 @@ function setLang(lang) {
   currentLang = (saved === 'en' || saved === 'ko') ? saved
     : ((navigator.language || '').toLowerCase().indexOf('ko') === 0 ? 'ko' : 'en');
   render(currentLang);
+
+  // 최신 릴리스 zip으로 다운로드 버튼을 직접 연결 (실패 시 릴리스 페이지 폴백 유지)
+  fetch('https://api.github.com/repos/kimtj12/copynod/releases/latest')
+    .then(function (res) { return res.ok ? res.json() : null; })
+    .then(function (release) {
+      if (!release || !release.assets) return;
+      for (var i = 0; i < release.assets.length; i++) {
+        var asset = release.assets[i];
+        if (/\.zip$/.test(asset.name)) {
+          document.getElementById('download-btn').href = asset.browser_download_url;
+          return;
+        }
+      }
+    })
+    .catch(function () {});
 })();
 </script>
 </body>
