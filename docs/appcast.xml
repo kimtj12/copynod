@@ -3,23 +3,12 @@
     <channel>
         <title>CopyNod</title>
         <item>
-            <title>0.2.0</title>
-            <pubDate>Fri, 17 Jul 2026 21:41:35 +0900</pubDate>
-            <sparkle:version>2</sparkle:version>
-            <sparkle:shortVersionString>0.2.0</sparkle:shortVersionString>
+            <title>0.3.0</title>
+            <pubDate>Sat, 18 Jul 2026 15:34:58 +0900</pubDate>
+            <sparkle:version>3</sparkle:version>
+            <sparkle:shortVersionString>0.3.0</sparkle:shortVersionString>
             <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/kimtj12/copynod/releases/download/v0.2.0/CopyNod-0.2.0.zip" length="2598960" type="application/octet-stream" sparkle:edSignature="jZ3aO1902NYWL3oFvwB8j0d4Vw6BI6bsc4hOB18W6+ZlgkcVNGxI3huj/z/jLR9szZev7VArFeCotbE3yHWGCQ=="/>
-            <sparkle:deltas>
-                <enclosure url="https://github.com/kimtj12/copynod/releases/download/v0.2.0/CopyNod2-1.delta" sparkle:deltaFrom="1" length="55134" type="application/octet-stream" sparkle:deltaFromSparkleExecutableSize="977840" sparkle:deltaFromSparkleLocales="de,he,ar,el,ja,fa,uk" sparkle:edSignature="GzsqZFJH6WYZ64s7jYiGWfR/oTTqySVelpeqbPeTjITQoeey4zrVIeOeCQnmKhH5qGNe8WICxn0OwGy/XrmOCQ=="/>
-            </sparkle:deltas>
-        </item>
-        <item>
-            <title>0.1.0</title>
-            <pubDate>Fri, 17 Jul 2026 17:13:22 +0900</pubDate>
-            <sparkle:version>1</sparkle:version>
-            <sparkle:shortVersionString>0.1.0</sparkle:shortVersionString>
-            <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/kimtj12/copynod/releases/download/v0.1.0/CopyNod-0.1.0.zip" length="2585511" type="application/octet-stream" sparkle:edSignature="PgVsJqhaisUd5kFG/wEU3hZ2vkAwDrfZrGUV5Ea3eW1j2tnysTa9sSIKTuPKt0PFuaIsW7HjLPvZkHb6iYxIBA=="/>
+            <enclosure url="https://github.com/kimtj12/copynod/releases/download/v0.3.0/CopyNod-0.3.0.zip" length="2608700" type="application/octet-stream" sparkle:edSignature="KpeG7SofB/3GujjUWn/Kkm45NkibfGSr49yyJ7Ugr0jZGQLguXAaiOHqjU7DzTCBpNZCirogDsExRqz4UHLBCw=="/>
         </item>
     </channel>
 </rss>
