@@ -1,9 +1,12 @@
 import AppKit
 import SwiftUI
 import Combine
+import os
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
+    private static let log = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CopyNod",
+                                    category: "lifecycle")
     private let store = SettingsStore()
     private let presenter = HUDPresenter()
     private var statusBar: StatusBarController?
@@ -55,6 +58,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         startWatchingPermissionChanges()
+        startWatchingWake()
+    }
+
+    /// 잠자기 복귀 시 감지기 재등록: 잠자는 동안 TCC 재평가가 미확정으로 끝나면
+    /// WindowServer가 이벤트 배달을 끊은 채 방치하고, NSEvent 모니터는 스스로
+    /// 재등록하지 않아 완전 무반응이 된다 (2026-07-18 장애, docs/debugging.md).
+    /// stop→start로 모니터를 새로 만들어 배달 경로를 복구한다.
+    private func startWatchingWake() {
+        NSWorkspace.shared.notificationCenter.addObserver(
+            forName: NSWorkspace.didWakeNotification,
+            object: nil, queue: .main
+        ) { [weak self] _ in
+            MainActor.assumeIsolated {
+                guard let self, PermissionManager.isTrusted else { return }
+                Self.log.notice("did wake: re-registering key monitors")
+                self.detector?.stop()
+                self.detector?.start()
+            }
+        }
     }
 
     /// 권한 회수/재부여 감지 (planning.md 2.4): TCC DB 변경의 분산 알림을 받아
@@ -63,6 +85,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let watcher = PermissionWatcher(isTrusted: { PermissionManager.isTrusted },
                                         scheduler: MainScheduler()) { [weak self] trusted in
             guard let self else { return }
+            Self.log.notice("accessibility permission changed: trusted=\(trusted)")
             self.statusBar?.showsPermissionWarning = !trusted
             if trusted {
                 self.detector?.start()

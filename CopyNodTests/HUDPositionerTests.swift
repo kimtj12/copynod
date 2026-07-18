@@ -8,7 +8,7 @@ struct HUDPositionerTests {
     let hudSize = CGSize(width: 64, height: 64)
     let screen = CGRect(x: 0, y: 0, width: 1440, height: 900)
 
-    @Test("커서 근처: 커서의 오른쪽 아래 16pt 지점에 뜬다")
+    @Test("커서 근처: 커서의 오른쪽 아래 10pt 지점에 뜬다")
     func nearCursorPlacesBelowRightOfCursor() {
         let origin = HUDPositioner.origin(
             for: .nearCursor,
@@ -16,8 +16,8 @@ struct HUDPositionerTests {
             cursor: CGPoint(x: 500, y: 500),
             screens: [screen]
         )
-        // x = 500 + 16, y = 500 - 16 - 64
-        #expect(origin == CGPoint(x: 516, y: 420))
+        // x = 500 + 10, y = 500 - 10 - 64
+        #expect(origin == CGPoint(x: 510, y: 426))
     }
 
     @Test("커서 근처: 화면 우하단 모서리에서는 화면 안쪽으로 클램핑된다 (여백 8pt)")
@@ -28,7 +28,7 @@ struct HUDPositionerTests {
             cursor: CGPoint(x: 1430, y: 30),
             screens: [screen]
         )
-        // 클램핑 전 (1446, -50) → x = 1440 - 64 - 8, y = 8
+        // 클램핑 전 (1440, -44) → x = 1440 - 64 - 8, y = 8
         #expect(origin == CGPoint(x: 1368, y: 8))
     }
 
@@ -41,8 +41,8 @@ struct HUDPositionerTests {
             cursor: CGPoint(x: 3340, y: 500),
             screens: [screen, second]
         )
-        // 클램핑 전 x = 3356 → 두 번째 화면의 maxX 기준 3360 - 64 - 8
-        #expect(origin == CGPoint(x: 3288, y: 420))
+        // 클램핑 전 x = 3350 → 두 번째 화면의 maxX 기준 3360 - 64 - 8
+        #expect(origin == CGPoint(x: 3288, y: 426))
     }
 
     @Test("하단 중앙: 커서가 있는 화면의 가로 중앙, 하단에서 100pt 위")
@@ -113,7 +113,7 @@ struct HUDPositionerTests {
             cursor: CGPoint(x: -5000, y: -5000),
             screens: [screen]
         )
-        // 클램핑 전 (-4984, -5080) → 첫 화면 좌하단 여백으로
+        // 클램핑 전 (-4990, -5074) → 첫 화면 좌하단 여백으로
         #expect(origin == CGPoint(x: 8, y: 8))
     }
 }

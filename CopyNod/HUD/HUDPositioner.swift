@@ -10,7 +10,7 @@ enum HUDPosition: String, CaseIterable {
 /// 순수 함수: (옵션, HUD 크기, 커서 좌표, 화면 프레임들) → 패널 원점.
 /// 좌표계는 AppKit 전역 좌표 (원점 좌하단, y 위로 증가).
 enum HUDPositioner {
-    static let cursorOffset: CGFloat = 16
+    static let cursorOffset: CGFloat = 10
     static let edgePadding: CGFloat = 8
     static let bottomOffset: CGFloat = 100
     static let topRightMargin = CGPoint(x: 16, y: 80)  // 알림 배너 회피용 상단 여백

@@ -1,47 +1,58 @@
 import AppKit
 
-/// 원형 배지 + 체크마크 stroke-drawing 애니메이션.
-/// 배경 재질의 버전 분기는 이 이니셜라이저 한 곳뿐이다 (planning.md 2.1).
+/// 필(pill) 배지: 체크마크 stroke-drawing 애니메이션 + "Copied" 레이블.
+/// 배경은 시스템 외형 고정 — 라이트: 흰 필/검정 텍스트, 다크: 검정 필/흰 텍스트.
+/// (배경 내용에 따라 톤이 바뀌는 NSGlassEffectView는 재사용 패널에서 이전 톤이 떴다 바뀌는 flip을 만들어 제거)
+/// translucent(Liquid Glass 스타일)는 같은 고정 톤에 알파만 주어 반투명 질감을 낸다.
 final class HUDView: NSView {
-    private let checkLayer = CAShapeLayer()
+    private static let translucentAlpha: CGFloat = 0.9
+    private static let pillHeight: CGFloat = 30
+    private static let iconSide: CGFloat = 16
+    private static let horizontalPadding: CGFloat = 14
+    private static let iconTextGap: CGFloat = 6
+    private static let text = Locale.preferredLanguages.first?.hasPrefix("ko") == true ? "복사됨" : "Copied"
+    private static let font = NSFont.systemFont(ofSize: 13, weight: .medium)
 
-    init(size: CGSize) {
+    /// 텍스트 실측 기반 필 크기 — HUDPresenter.hudSize의 원천
+    static let pillSize: CGSize = {
+        let textWidth = ceil((text as NSString).size(withAttributes: [.font: font]).width)
+        return CGSize(width: horizontalPadding + iconSide + iconTextGap + textWidth + horizontalPadding,
+                      height: pillHeight)
+    }()
+
+    private let checkLayer = CAShapeLayer()
+    let translucent: Bool
+
+    init(size: CGSize, translucent: Bool = false) {
+        self.translucent = translucent
         super.init(frame: NSRect(origin: .zero, size: size))
         wantsLayer = true
+        layer?.cornerRadius = size.height / 2
+        layer?.cornerCurve = .continuous
 
-        let background: NSView
-        if #available(macOS 26.0, *) {
-            let glass = NSGlassEffectView(frame: bounds)
-            glass.cornerRadius = size.width / 2
-            background = glass
-        } else {
-            let visual = NSVisualEffectView(frame: bounds)
-            visual.material = .hudWindow
-            visual.blendingMode = .behindWindow
-            visual.state = .active
-            // behind-window 블러는 layer cornerRadius로 잘리지 않는다 — maskImage가 정석
-            visual.maskImage = NSImage(size: size, flipped: false) { rect in
-                NSBezierPath(ovalIn: rect).fill()
-                return true
-            }
-            background = visual
-        }
-        background.autoresizingMask = [.width, .height]
-        addSubview(background)
-
-        checkLayer.path = Self.checkPath(scaledTo: size)
+        let iconFrame = NSRect(x: Self.horizontalPadding,
+                               y: (size.height - Self.iconSide) / 2,
+                               width: Self.iconSide, height: Self.iconSide)
+        checkLayer.path = Self.checkPath(scaledTo: iconFrame.size)
         checkLayer.fillColor = nil
-        checkLayer.lineWidth = 5 * size.width / 64
+        checkLayer.lineWidth = 2
         checkLayer.lineCap = .round
         checkLayer.lineJoin = .round
         checkLayer.strokeEnd = 0
 
         // 수동 sublayer를 subview 레이어와 섞으면 z-순서 보장이 없다 — 전용 오버레이 뷰에 담는다
-        let checkHost = NSView(frame: bounds)
-        checkHost.autoresizingMask = [.width, .height]
+        let checkHost = NSView(frame: iconFrame)
         checkHost.wantsLayer = true
         checkHost.layer?.addSublayer(checkLayer)
-        addSubview(checkHost, positioned: .above, relativeTo: background)
+        addSubview(checkHost)
+
+        let label = NSTextField(labelWithString: Self.text)
+        label.font = Self.font
+        label.textColor = .labelColor
+        label.sizeToFit()
+        label.setFrameOrigin(NSPoint(x: iconFrame.maxX + Self.iconTextGap,
+                                     y: (size.height - label.frame.height) / 2))
+        addSubview(label)
     }
 
     @available(*, unavailable)
@@ -50,8 +61,12 @@ final class HUDView: NSView {
     override var wantsUpdateLayer: Bool { true }
 
     override func updateLayer() {
-        // semantic color — 다크/라이트 전환 시 재해석
-        checkLayer.strokeColor = NSColor.labelColor.cgColor
+        // 시스템 라이트/다크 전환 시 재해석
+        let isDark = effectiveAppearance.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua
+        let base = isDark ? NSColor.black : NSColor.white
+        layer?.backgroundColor = (translucent ? base.withAlphaComponent(Self.translucentAlpha) : base).cgColor
+        // Verified Green (docs/DESIGN.md) = Apple systemGreen 그대로
+        checkLayer.strokeColor = NSColor.systemGreen.cgColor
     }
 
     /// strokeEnd 0→1로 체크를 약 0.25초에 걸쳐 그린다

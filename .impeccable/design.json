@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-17T22:05:00+09:00",
+  "title": "Design System: CopyNod",
+  "extensions": {
+    "colorMeta": {
+      "verified-green": { "role": "primary", "displayName": "Verified Green", "canonical": "#32d74b (Apple systemGreen, dark)", "tonalRamp": ["oklch(18% 0.07 147)", "oklch(30% 0.11 147)", "oklch(42% 0.15 147)", "oklch(54% 0.18 147)", "oklch(66% 0.20 147)", "oklch(77% 0.21 147)", "oklch(87% 0.15 147)", "oklch(95% 0.07 147)"] },
+      "verified-green-light": { "role": "primary", "displayName": "Verified Green (Light)", "canonical": "#34c759 (Apple systemGreen, light)", "tonalRamp": ["oklch(18% 0.07 149)", "oklch(30% 0.11 149)", "oklch(42% 0.15 149)", "oklch(54% 0.18 149)", "oklch(66% 0.19 149)", "oklch(73% 0.20 149)", "oklch(86% 0.14 149)", "oklch(95% 0.06 149)"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#f5f5f7", "tonalRamp": ["oklch(15% 0.004 286)", "oklch(27% 0.004 286)", "oklch(39% 0.004 286)", "oklch(51% 0.003 286)", "oklch(63% 0.003 286)", "oklch(75% 0.002 286)", "oklch(87% 0.002 286)", "oklch(97% 0.001 286)"] },
+      "midnight": { "role": "neutral", "displayName": "Midnight", "canonical": "#0a0a0c", "tonalRamp": ["oklch(13% 0.006 286)", "oklch(22% 0.006 286)", "oklch(33% 0.005 286)", "oklch(45% 0.005 286)", "oklch(58% 0.004 286)", "oklch(72% 0.003 286)", "oklch(86% 0.002 286)", "oklch(96% 0.001 286)"] },
+      "porcelain": { "role": "neutral", "displayName": "Porcelain", "canonical": "#fbfbfd", "tonalRamp": ["oklch(15% 0.003 286)", "oklch(28% 0.003 286)", "oklch(41% 0.003 286)", "oklch(54% 0.002 286)", "oklch(67% 0.002 286)", "oklch(80% 0.002 286)", "oklch(92% 0.002 286)", "oklch(99% 0.001 286)"] },
+      "ink-light": { "role": "neutral", "displayName": "Ink (Light theme)", "canonical": "#1d1d1f" },
+      "ink-secondary": { "role": "neutral", "displayName": "Ink Secondary", "canonical": "rgba(235,235,245,.6) — 정보성 보조 텍스트의 하한선" },
+      "ink-tertiary": { "role": "neutral", "displayName": "Ink Tertiary", "canonical": "rgba(235,235,245,.35) — AA 미달, 장식 전용" },
+      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "rgba(255,255,255,.1)", "tonalRamp": ["rgba(255,255,255,0.02)", "rgba(255,255,255,0.04)", "rgba(255,255,255,0.07)", "rgba(255,255,255,0.1)", "rgba(255,255,255,0.16)", "rgba(255,255,255,0.24)", "rgba(255,255,255,0.36)", "rgba(255,255,255,0.5)"] },
+      "panel": { "role": "neutral", "displayName": "Panel", "canonical": "rgba(255,255,255,.04)", "tonalRamp": ["rgba(255,255,255,0.02)", "rgba(255,255,255,0.04)", "rgba(255,255,255,0.06)", "rgba(255,255,255,0.08)", "rgba(255,255,255,0.12)", "rgba(255,255,255,0.18)", "rgba(255,255,255,0.26)", "rgba(255,255,255,0.36)"] },
+      "glass": { "role": "neutral", "displayName": "Glass", "canonical": "rgba(30,30,36,.55) + blur(24px) — HUD 배지 전용" },
+      "keycap-fill": { "role": "neutral", "displayName": "Keycap Fill", "canonical": "rgba(255,255,255,.07)" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "히어로 헤드라인 전용 — 페이지에 한 번." },
+      "headline": { "displayName": "Headline", "purpose": "섹션 제목 (32px/700)." },
+      "title": { "displayName": "Title", "purpose": "카드·아이템 제목 (15–16px/600)." },
+      "body": { "displayName": "Body", "purpose": "설명 텍스트 — Ink Secondary. 히어로 서브만 19px 리드." },
+      "label": { "displayName": "Label", "purpose": "킥커 전용 (12px/600/0.1em/uppercase) — Problem 섹션 단 한 곳." }
+    },
+    "shadows": [
+      { "name": "float-hud", "value": "0 12px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.12)", "purpose": "HUD 배지 전용 — 떠오름 + 유리 윗면 하이라이트. The Only-What-Floats Rule." },
+      { "name": "float-icon", "value": "0 18px 50px rgba(0,0,0,.3)", "purpose": "히어로 앱 아이콘 전용." },
+      { "name": "pressed-keycap", "value": "inset 0 -2px 0 rgba(0,0,0,.15)", "purpose": "키캡 아랫면 — 눌리는 물체의 물성." }
+    ],
+    "motion": [
+      { "name": "hud-cycle", "value": "2.6s ease-in-out infinite", "purpose": "히어로 HUD 데모 루프 — 키캡 눌림 → HUD 팝(scale .86→1) → 체크 드로잉(stroke-dashoffset 30→0) → 페이드아웃. 페이지의 유일한 모션 예산. prefers-reduced-motion 대안 필수(정적 체크 상태)." },
+      { "name": "ui-state", "value": "0.2s", "purpose": "FAQ 셰브런 회전, 버튼 투명도 등 상태 전환. 투명도·색·transform만 건드린다." }
+    ],
+    "breakpoints": [
+      { "name": "stack", "value": "720px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "다운로드 CTA — Ink/Midnight 반전 필 버튼. 호버는 조용한 투명도 감쇠.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Download for macOS</a>",
+      "css": ".ds-btn-primary{display:inline-block;background:var(--fg,#f5f5f7);color:var(--bg,#0a0a0c);font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;font-size:15px;font-weight:600;padding:13px 30px;border-radius:999px;text-decoration:none;transition:opacity .2s}.ds-btn-primary:hover{opacity:.85}"
+    },
+    {
+      "name": "Text Link (Secondary CTA)",
+      "kind": "button",
+      "description": "보조 CTA는 버튼이 아니라 텍스트 링크 — Ink Secondary, 호버 시 Ink로.",
+      "html": "<a class=\"ds-gh-link\" href=\"#\">View on GitHub ↗</a>",
+      "css": ".ds-gh-link{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;font-size:15px;font-weight:500;color:var(--fg2,rgba(235,235,245,.6));text-decoration:none;transition:color .2s}.ds-gh-link:hover{color:var(--fg,#f5f5f7)}"
+    },
+    {
+      "name": "Language Toggle",
+      "kind": "nav",
+      "refersTo": "lang-toggle-active",
+      "description": "EN/KO 세그먼트 토글 — 헤어라인 필 컨테이너, 활성은 Ink/Midnight 반전.",
+      "html": "<div class=\"ds-lang-toggle\"><button class=\"ds-lang-btn active\">EN</button><button class=\"ds-lang-btn\">KO</button></div>",
+      "css": ".ds-lang-toggle{display:inline-flex;gap:2px;padding:2px;border:1px solid var(--border,rgba(255,255,255,.1));border-radius:999px}.ds-lang-btn{border:none;cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;font-size:12px;font-weight:600;padding:4px 12px;border-radius:999px;color:var(--fg2,rgba(235,235,245,.6));background:transparent;transition:color .2s}.ds-lang-btn:hover{color:var(--fg,#f5f5f7)}.ds-lang-btn.active{color:var(--bg,#0a0a0c);background:var(--fg,#f5f5f7)}"
+    },
+    {
+      "name": "HUD Badge",
+      "kind": "custom",
+      "refersTo": "hud-badge",
+      "description": "시그니처 — 제품 HUD의 재현. Glass + blur(24px) + Float-HUD 그림자 + Verified Green 체크.",
+      "html": "<div class=\"ds-hud-badge\"><svg width=\"34\" height=\"34\" viewBox=\"0 0 32 32\" fill=\"none\" aria-hidden=\"true\"><path d=\"M7 17l6 6L25 10\" stroke=\"#32d74b\" stroke-width=\"3.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></div>",
+      "css": ".ds-hud-badge{width:68px;height:68px;border-radius:20px;background:var(--hud-bg,rgba(30,30,36,.55));border:1px solid var(--border,rgba(255,255,255,.1));backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:0 12px 40px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center}"
+    },
+    {
+      "name": "Keycaps",
+      "kind": "custom",
+      "refersTo": "keycap",
+      "description": "시그니처 — ⌘C 키캡. 모노스페이스 폰트 대신 재질로 키보드를 표현한다.",
+      "html": "<div class=\"ds-keys\"><div class=\"ds-keycap\">⌘</div><div class=\"ds-keycap\">C</div></div>",
+      "css": ".ds-keys{display:flex;gap:6px}.ds-keycap{padding:7px 11px;border-radius:8px;background:var(--key-bg,rgba(255,255,255,.07));border:1px solid var(--border,rgba(255,255,255,.1));font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;font-size:14px;font-weight:600;color:var(--fg2,rgba(235,235,245,.6));box-shadow:inset 0 -2px 0 rgba(0,0,0,.15)}"
+    },
+    {
+      "name": "Step Card",
+      "kind": "card",
+      "refersTo": "step-card",
+      "description": "How-it-works 3단계 카드 — Panel 틴트 + 헤어라인, 그림자 없음.",
+      "html": "<div class=\"ds-step-card\"><div class=\"ds-step-n\">02</div><div class=\"ds-step-title\">Clipboard verified</div><div class=\"ds-step-desc\">CopyNod waits up to 300 ms for the clipboard change counter to actually change.</div></div>",
+      "css": ".ds-step-card{background:var(--panel,rgba(255,255,255,.04));border:1px solid var(--border,rgba(255,255,255,.1));border-radius:18px;padding:26px 22px;max-width:280px;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif}.ds-step-n{font-size:12px;font-weight:600;color:var(--fg3,rgba(235,235,245,.35));margin-bottom:12px}.ds-step-title{font-size:16px;font-weight:600;color:var(--fg,#f5f5f7);margin-bottom:8px}.ds-step-desc{font-size:13.5px;line-height:1.55;color:var(--fg2,rgba(235,235,245,.6))}"
+    },
+    {
+      "name": "Stat Card",
+      "kind": "card",
+      "refersTo": "stat-card",
+      "description": "성능 수치 카드 — 42px tabular 숫자, Panel 틴트.",
+      "html": "<div class=\"ds-stat-card\"><div class=\"ds-stat-num\">~0%</div><div class=\"ds-stat-label\">idle CPU</div></div>",
+      "css": ".ds-stat-card{background:var(--panel,rgba(255,255,255,.04));border:1px solid var(--border,rgba(255,255,255,.1));border-radius:18px;padding:32px 24px;text-align:center;min-width:180px;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif}.ds-stat-num{font-size:42px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--fg,#f5f5f7)}.ds-stat-label{margin-top:8px;font-size:13.5px;line-height:1.5;color:var(--fg2,rgba(235,235,245,.6))}"
+    },
+    {
+      "name": "FAQ Item",
+      "kind": "custom",
+      "description": "헤어라인 디바이더 아코디언 — 카드가 아닌 리스트. + 표식이 열림 시 45° 회전.",
+      "html": "<div class=\"ds-faq-item\"><button class=\"ds-faq-q\" aria-expanded=\"false\"><span>Does it read my clipboard?</span><span class=\"ds-faq-chev\">+</span></button></div>",
+      "css": ".ds-faq-item{border-top:1px solid var(--border,rgba(255,255,255,.1));border-bottom:1px solid var(--border,rgba(255,255,255,.1));min-width:320px}.ds-faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;background:none;border:none;cursor:pointer;color:var(--fg,#f5f5f7);text-align:left;padding:18px 2px;font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;font-size:15px;font-weight:600}.ds-faq-chev{color:var(--fg3,rgba(235,235,245,.35));font-size:18px;font-weight:400;transition:transform .2s}"
+    }
+  ],
+  "narrative": {
+    "northStar": "시스템의 연장 (An Extension of the System)",
+    "overview": "이 페이지는 자기만의 브랜드 세계를 짓지 않는다. macOS의 재질·폰트·색을 그대로 입어, 방문자가 \"이미 내 맥의 일부\"를 보고 있다고 느끼게 한다. 시스템 폰트 스택, Apple systemGreen 값 그대로의 액센트, 프로스티드 글래스와 헤어라인 보더 — 페이지의 모든 시각 어휘는 운영체제에서 빌려온 것이고, 그래야 한다. 제품(HUD)이 OS의 일부처럼 동작하듯, 랜딩도 OS의 일부처럼 보인다. 밀도는 낮고 목소리는 하나다. 조용함·정밀함·절제 — 과장 카피, 가입·뉴스레터·가격표, 과한 스크롤 애니메이션을 명시적으로 거부한다. 페이지 전체에서 움직이는 것은 히어로의 HUD 데모 루프 하나뿐이며, 이것이 이 시스템의 모션 예산 전부다.",
+    "keyCharacteristics": [
+      "다크 기본 + 라이트 대응. 두 테마 모두 Apple 시스템 값 기반 (#0a0a0c/#f5f5f7 ↔ #fbfbfd/#1d1d1f).",
+      "단일 액센트: Verified Green. 체크마크에만 존재.",
+      "표면은 평평하게(헤어라인 + 반투명 틴트), 그림자는 떠 있는 물체에만.",
+      "시스템 폰트 단일 패밀리, 웨이트와 크기만으로 위계.",
+      "EN/KO 동등 — 텍스트 컨테이너를 언어 하나에 맞춰 고정하지 않는다."
+    ],
+    "rules": [
+      { "name": "The One Green Rule", "body": "Verified Green은 체크마크가 있는 곳에만 존재한다. 버튼, 링크, 호버, 장식에 쓰는 것을 금지한다. 이 색의 희소성이 곧 \"오탐 없음\"이라는 제품 주장이다.", "section": "colors" },
+      { "name": "The Borrowed Value Rule", "body": "새 색을 발명하지 않는다. 필요한 값이 생기면 먼저 Apple 시스템 팔레트(systemGreen처럼)에서 인용할 수 있는지 찾는다. 인용할 수 없는 색이 필요하다는 것은 대개 디자인이 시스템의 연장에서 벗어나고 있다는 신호다.", "section": "colors" },
+      { "name": "The Single Voice Rule", "body": "두 번째 폰트 패밀리는 금지. \"기술적인 느낌\"을 위한 모노스페이스 추가도 금지 — 키보드 키는 폰트가 아니라 키캡 컴포넌트로 표현한다.", "section": "typography" },
+      { "name": "The Two-Language Rule", "body": "모든 텍스트 컨테이너는 EN과 KO 양쪽 길이를 견뎌야 한다. 한 언어에 맞춘 고정 폭·고정 높이 금지.", "section": "typography" },
+      { "name": "The Only-What-Floats Rule", "body": "실제로 화면 위에 떠 있는 물체만 그림자를 가진다 — HUD 배지, 앱 아이콘, 키캡(inset). 정보를 담는 표면(카드·패널·섹션)은 절대 그림자를 갖지 않고, 헤어라인 보더 + Panel 틴트로만 배경과 구분된다.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do Verified Green을 체크마크에만 쓴다 — The One Green Rule.",
+      "Do 정보를 담는 텍스트는 Ink Secondary(60%) 이상으로 — Ink Tertiary(35%)는 AA 미달이므로 장식 전용.",
+      "Do 모든 애니메이션에 prefers-reduced-motion 대안을 제공한다 — HUD 데모는 정적인 체크 완료 상태로 대체 (현재 미구현, 필수 보완).",
+      "Do 스탯 수치에는 tabular-nums, 제목에는 text-wrap: balance 계열의 안정 장치.",
+      "Do 표면 구분은 헤어라인 + Panel 틴트로. 그림자를 쓰고 싶다면 \"이게 실제로 떠 있는 물체인가\"부터 묻는다.",
+      "Do 모든 카피·컴포넌트를 EN/KO 양쪽에서 검증한다. 두 언어의 정보 범위는 같아야 한다.",
+      "Do 320px 폭에서 레이아웃을 확인한다 (고정 폭 슬롯 금지 — min(300px, 100%) 패턴)."
+    ],
+    "donts": [
+      "Don't 과장 카피 금지 — \"혁신적인\", \"생산성 10배\" 류의 하이프 언어, 느낌표 (PRODUCT.md 앤티레퍼런스).",
+      "Don't 가입, 뉴스레터, 가격표 — 전환 방해 요소는 어떤 형태로도 추가하지 않는다 (PRODUCT.md).",
+      "Don't 과한 스크롤 애니메이션 금지 — 히어로의 HUD 데모가 페이지의 유일한 의미 있는 모션이어야 한다 (PRODUCT.md).",
+      "Don't 새 색·새 폰트 패밀리 발명 금지 — 시스템에서 인용할 수 없으면 시스템의 연장이 아니다.",
+      "Don't 그라디언트 텍스트, 장식용 글래스모피즘 금지 — 유리는 OS에서 실제로 유리인 것(헤더, HUD)에만.",
+      "Don't 업퍼케이스 킥커를 섹션마다 반복하지 않는다 — 킥커는 Problem 섹션 단 한 곳의 장치다.",
+      "Don't 평평한 카드에 보더 + 넓은 그림자를 함께 얹지 않는다 — 그 조합은 떠 있는 물체(HUD·아이콘)의 전유물이다.",
+      "Don't 텍스트 컨테이너를 한 언어 길이에 맞춰 고정하지 않는다."
+    ]
+  }
+}

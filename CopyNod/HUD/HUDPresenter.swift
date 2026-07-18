@@ -4,7 +4,7 @@ import AppKit
 /// 위치 계산은 HUDPositioner(순수 함수)에 위임.
 @MainActor
 final class HUDPresenter {
-    static let hudSize = CGSize(width: 64, height: 64)
+    static let hudSize = HUDView.pillSize
     private static let fadeInDuration: TimeInterval = 0.1
     private static let visibleDuration: TimeInterval = 0.75
     private static let fadeOutDuration: TimeInterval = 0.25
@@ -21,12 +21,14 @@ final class HUDPresenter {
         guard !screens.isEmpty else { return }
 
         switch style {
-        case .classic: showClassic(at: cursor, position: position, screens: screens)
+        case .classic, .liquidGlass:
+            showPill(at: cursor, position: position, screens: screens,
+                     translucent: style == .liquidGlass)
         case .inkRipple: showRipple(at: cursor, position: position, screens: screens)
         }
     }
 
-    private func showClassic(at cursor: CGPoint, position: HUDPosition, screens: [CGRect]) {
+    private func showPill(at cursor: CGPoint, position: HUDPosition, screens: [CGRect], translucent: Bool) {
         hideWorkItem?.cancel()
 
         // 표시 중 재트리거: 위치는 유지하고 표시 시간만 연장 (디바운스 — planning.md 5절).
@@ -42,7 +44,7 @@ final class HUDPresenter {
             return
         }
 
-        let panel = ensurePanel()
+        let panel = ensurePanel(translucent: translucent)
         panel.setFrameOrigin(HUDPositioner.origin(for: position, hudSize: Self.hudSize,
                                                   cursor: cursor, screens: screens))
         panel.alphaValue = 0
@@ -92,11 +94,14 @@ final class HUDPresenter {
         })
     }
 
-    private func ensurePanel() -> HUDPanel {
-        if let panel { return panel }
-        let view = HUDView(size: Self.hudSize)
-        let newPanel = HUDPanel(contentRect: NSRect(origin: .zero, size: Self.hudSize))
+    private func ensurePanel(translucent: Bool) -> HUDPanel {
+        // 설정에서 스타일이 바뀌면 캐시된 뷰의 재질이 다르다 — 패널은 유지하고 뷰만 갈아끼운다
+        if let panel, hudView?.translucent == translucent { return panel }
+        let view = HUDView(size: Self.hudSize, translucent: translucent)
+        let newPanel = panel ?? HUDPanel(contentRect: NSRect(origin: .zero, size: Self.hudSize))
         newPanel.contentView = view
+        // 필의 알파 채널을 따라 필 모양 그림자를 시스템이 그려준다
+        newPanel.hasShadow = true
         panel = newPanel
         hudView = view
         return newPanel

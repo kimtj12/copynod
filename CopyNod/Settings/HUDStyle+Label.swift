@@ -5,6 +5,7 @@ extension HUDStyle {
     var label: String {
         switch self {
         case .classic: String(localized: "Classic")
+        case .liquidGlass: String(localized: "Liquid Glass")
         case .inkRipple: String(localized: "Ink Ripple")
         }
     }

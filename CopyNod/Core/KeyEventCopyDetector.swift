@@ -1,10 +1,16 @@
 import AppKit
+import os
 
 /// NSEvent 모니터 기반 감지. global monitor는 다른 앱의 ⌘C/⌘X를,
 /// local monitor는 자기 앱 내부의 것을 잡는다 (global에는 자기 앱이 안 잡힘).
 /// flagsChanged는 ⌘-down arm 신호용 — ⇧ 포함 모든 modifier 변화가 배달되므로
 /// 이 경로는 비트마스크 비교 후 즉시 리턴하는 수준으로 유지한다.
 final class KeyEventCopyDetector: CopyDetector {
+    // 사후 진단용 라이프사이클 로그 — .notice는 디스크에 영속되어 `log show`로
+    // 조회 가능 (debug/info는 메모리 버퍼뿐이라 사후 추적 불가, docs/debugging.md)
+    private static let log = Logger(subsystem: Bundle.main.bundleIdentifier ?? "CopyNod",
+                                    category: "lifecycle")
+
     var onCopyKeyDown: ((_ isRepeat: Bool, _ cursor: CGPoint) -> Void)?
     var onCommandDown: ((_ lag: TimeInterval) -> Void)?
 
@@ -21,9 +27,13 @@ final class KeyEventCopyDetector: CopyDetector {
             self?.handle(event)
             return event  // 이벤트는 절대 삼키지 않는다
         }
+        Self.log.notice("detector started: key monitors registered")
     }
 
     func stop() {
+        if globalMonitor != nil {
+            Self.log.notice("detector stopped: key monitors removed")
+        }
         if let globalMonitor { NSEvent.removeMonitor(globalMonitor) }
         if let localMonitor { NSEvent.removeMonitor(localMonitor) }
         globalMonitor = nil
